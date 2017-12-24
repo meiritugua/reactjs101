@@ -1,22 +1,22 @@
-# React Router 入門實戰教學
+# React Router 入门实战教学
 
-![React Router 資料夾結構](./images/react-router.jpg "React Router 入門實戰教學")
+![React Router 资料夹结构](./images/react-router.jpg "React Router 入门实战教学")
 
 ## 前言
-若你是從一開始一路走到這裡讀者請先給自己一個愛的鼓勵吧！在經歷了 React 基礎的訓練後，相信各位讀者應該都等不及想大展拳腳了！接下來我們將進行比較複雜的應用程式開發並和讀者介紹目前市場上常見的不刷頁單頁式應用程式（single page application）的設計方式。
+若你是从一开始一路走到这里读者请先给自己一个爱的鼓励吧！在经历了 React 基础的训练后，相信各位读者应该都等不及想大展拳脚了！接下来我们将进行比较复杂的应用程式开发并和读者介绍目前市场上常见的不刷页单页式应用程式（single page application）的设计方式。
 
-## 單頁式應用程式（single page application）
-傳統的 Web 開發主要是由伺服器管理 URL Routing 和渲染 HTML 頁面，過往每次 URL 一換或使用者連結一點，就需要重新從伺服器端重新載入頁面。但隨著使用者對於使用者體驗的要求提昇，許多的網頁應用程式紛紛設計成不刷頁的單頁式應用程式（single page application），由前端負責 URL 的 routing 管理，若需要和後端進行 API 資料溝通的話，通常也會使用 Ajax 的技術。在 React 開發世界中主流是使用 [react-router](https://github.com/reactjs/react-router) 這個 routing 管理用的 library。
+## 单页式应用程式（single page application）
+传统的 Web 开发主要是由伺服器管理 URL Routing 和渲染 HTML 页面，过往每次 URL 一换或使用者连结一点，就需要重新从伺服器端重新载入页面。但随着使用者对于使用者体验的要求提升，许多的网页应用程式纷纷设计成不刷页的单页式应用程式（single page application），由前端负责 URL 的 routing 管理，若需要和后端进行 API 资料沟通的话，通常也会使用 Ajax 的技术。在 React 开发世界中主流是使用 [react-router](https://github.com/reactjs/react-router) 这个 routing 管理用的 library。
 
-## React Router 環境設置
+## React Router 环境设置
 
-先透過以下指令在根目錄產生 npm 設定檔 `package.json` ：
+先透过以下指令在根目录产生 npm 设定档 `package.json` ：
 
 ```
 $ npm init
 ```
 
-安裝相關套件（包含開發環境使用的套件）：
+安装相关套件（包含开发环境使用的套件）：
 
 ```shell
 $ npm install --save react react-dom react-router
@@ -26,13 +26,13 @@ $ npm install --save react react-dom react-router
 $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react webpack webpack-dev-server html-webpack-plugin
 ```
 
-安裝好後我們可以設計一下我們的資料夾結構，首先我們在根目錄建立 `src` 和 `res` 資料夾，分別放置 `script` 的 `source` 和靜態資源（如：全域使用的 `.css` 和圖檔）。在 `components` 資料夾中我們會放置所有 `components`（個別元件資料夾中會用 `index.js` 輸出元件，讓引入元件更簡潔），其餘設定檔則放置於根目錄下。
+安装好后我们可以设计一下我们的资料夹结构，首先我们在根目录建立 `src` 和 `res` 资料夹，分别放置 `script` 的 `source` 和静态资源（如：全域使用的 `.css` 和图档）。在 `components` 资料夹中我们会放置所有 `components`（个别组件资料夹中会用 `index.js` 输出组件，让引入组件更简洁），其余设定档则放置于根目录下。
 
-![React Router 資料夾結構](./images/folder.png "React Router 資料夾結構")
+![React Router 资料夹结构](./images/folder.png "React Router 资料夹结构")
 
-接下來我們先設定一下開發文檔。
+接下来我们先设定一下开发文档。
 
-1. 設定 Babel 的設定檔： `.babelrc`
+1. 设定 Babel 的设定档： `.babelrc`
 
 	```javascript
 	{
@@ -45,7 +45,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 
 	```
 
-2. 設定 ESLint 的設定檔和規則： `.eslintrc`
+2. 设定 ESLint 的设定档和规则： `.eslintrc`
 
 	```javascript
 	{
@@ -59,10 +59,10 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	}
 	```
 
-3. 設定 Webpack 設定檔： `webpack.config.js`
+3. 设定 Webpack 设定档： `webpack.config.js`
 
 	```javascript
-	// 讓你可以動態插入 bundle 好的 .js 檔到 .index.html
+	// 让你可以动态插入 bundle 好的 .js 档到 .index.html
 	const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 	const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
@@ -71,7 +71,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	  inject: 'body',
 	});
 	
-	// entry 為進入點，output 為進行完 eslint、babel loader 轉譯後的檔案位置
+	// entry 为进入点，output 为进行完 eslint、babel loader 转译后的档案位置
 	module.exports = {
 	  entry: [
 	    './src/index.js',
@@ -98,7 +98,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	      },
 	    }],
 	  },
-	  // 啟動開發測試用 server 設定（不能用在 production）
+	  // 启动开发测试用 server 设定（不能用在 production）
 	  devServer: {
 	    inline: true,
 	    port: 8008,
@@ -107,9 +107,9 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	};
 	```
 
-太好了！這樣我們就完成了開發環境的設定可以開始動手實作 `React Router` 應用程式了！	
+太好了！这样我们就完成了开发环境的设定可以开始动手实作 `React Router` 应用程式了！	
 
-## 開始 React Routing 之旅
+## 开始 React Routing 之旅
 
 HTML Markup：
 
@@ -127,39 +127,39 @@ HTML Markup：
 </html>
 ```
 
-以下是 `webpack.config.js` 的進入點 `src/index.js`，負責管理 `Router` 和 `render` 元件。這邊我們要先詳細討論的是，為了使用 React Router 功能引入了許多 `react-router` 內部的元件。
+以下是 `webpack.config.js` 的进入点 `src/index.js`，负责管理 `Router` 和 `render` 组件。这边我们要先详细讨论的是，为了使用 React Router 功能引入了许多 `react-router` 内部的组件。
 
 1. Router
-`Router` 是放置 Route 的容器，其本身不定義 routing ，真正 routing 規則由 `Route` 定義。
+`Router` 是放置 Route 的容器，其本身不定义 routing ，真正 routing 规则由 `Route` 定义。
 
 2. Route
-`Route` 負責 URL 和對應的元件關係，可以有多個 `Route` 規則也可以有嵌套（nested）`Routing`。像下面的例子就是每個頁面都會先載入 `App` 元件再載入對應 URL 的元件。
+`Route` 负责 URL 和对应的组件关系，可以有多个 `Route` 规则也可以有嵌套（nested）`Routing`。像下面的例子就是每个页面都会先载入 `App` 组件再载入对应 URL 的组件。
 
 3. history
-`Router` 中有一個屬性 `history` 的規則，這邊使用我們使用 `hashHistory`，使用 routing 將由 `hash`（#）變化決定。例如：當使用者拜訪 `http://www.github.com/`，實際看到的會是 `http://www.github.com/#/`。下列範例若是拜訪了 `/about` 則會看到 `http://localhost:8008/#/about` 並載入 `App` 元件再載入 `About` 元件。
+`Router` 中有一个属性 `history` 的规则，这边使用我们使用 `hashHistory`，使用 routing 将由 `hash`（#）变化决定。例如：当使用者拜访 `http://www.github.com/`，实际看到的会是 `http://www.github.com/#/`。下列范例若是拜访了 `/about` 则会看到 `http://localhost:8008/#/about` 并载入 `App` 组件再载入 `About` 组件。
 
 	- hashHistory
-	教學範例使用的，會通過 `hash` 進行對應。好處是簡單易用，不用多餘設定。
+	教学范例使用的，会通过 `hash` 进行对应。好处是简单易用，不用多余设定。
 
 	- browserHistory
-	適用於伺服器端渲染，但需要設定伺服器端避免處理錯誤，這部份我們會在後面的章節詳細說明。注意的是若是使用 Webpack 開發用伺服器需加上 `--history-api-fallback`
+	适用于伺服器端渲染，但需要设定伺服器端避免处理错误，这部份我们会在后面的章节详细说明。注意的是若是使用 Webpack 开发用伺服器需加上 `--history-api-fallback`
 
 	```
 	$ webpack-dev-server --inline --content-base . --history-api-fallback
 	```
 
 	- createMemoryHistory
-	主要用於伺服器渲染，使用上會建立一個存在記憶體的 `history` 物件，不會修改瀏覽器的網址位置。
+	主要用于伺服器渲染，使用上会建立一个存在记忆体的 `history` 物件，不会修改浏览器的网址位置。
 
 	```
 	const history = createMemoryHistory(location)
 	```
 
 4. path
-`path` 是對應 URL 的規則。例如：`/repos/torvalds` 會對應到 `/repos/:name` 的位置，並將參數傳入 `Repos` 元件中。由 `this.props.params.name` 取得參數。順帶一提，若為查詢參數 `/user?q=torvalds` 則由 `this.props.location.query.q` 取得參數。
+`path` 是对应 URL 的规则。例如：`/repos/torvalds` 会对应到 `/repos/:name` 的位置，并将参数传入 `Repos` 组件中。由 `this.props.params.name` 取得参数。顺带一提，若为查询参数 `/user?q=torvalds` 则由 `this.props.location.query.q` 取得参数。
 
 5. IndexRoute
-由於 `/` 情況下 App 元件對應的 `this.props.children` 會是 `undefinded`，所以使用 `IndexRoute` 來解決對應問題。這樣當 URL 為 `/` 時將會對應到 Home 元件。不過要注意的是 `IndexRoute` 沒有 path 屬性。
+由于 `/` 情况下 App 组件对应的 `this.props.children` 会是 `undefinded`，所以使用 `IndexRoute` 来解决对应问题。这样当 URL 为 `/` 时将会对应到 Home 组件。不过要注意的是 `IndexRoute` 没有 path 属性。
 
 ```javascript
 import React from 'react';
@@ -184,7 +184,7 @@ ReactDOM.render(
   </Router>,
   document.getElementById('app'));
 
-  /* 另外一種寫法：
+  /* 另外一种写法：
 	const routes = (
 	    <Route path="/" component={App}>
 	      <IndexRoute component={Home} />
@@ -201,18 +201,18 @@ ReactDOM.render(
   */
 ```
 
-由於我們在 `index.js` 使用嵌套 routing，把 App 元件當做每個元件都會載入的母模版，亦即進入每個對應頁面載入對應元件前都會先載入 App 元件。這樣就可以讓每個頁面都有導覽列連結可以點選，同時可以透過 `props.children` 載入對應 URL 的子元件。
+由于我们在 `index.js` 使用嵌套 routing，把 App 组件当做每个组件都会载入的母模版，亦即进入每个对应页面载入对应组件前都会先载入 App 组件。这样就可以让每个页面都有导览列连结可以点选，同时可以透过 `props.children` 载入对应 URL 的子组件。
 
 1. Link
-`Link` 元件主要用於點擊後連結轉換，可以想成是 `<a>` 超連結的 React 版本。若是希望當點擊時候有對應的 css style，可以使用 `activeStyle`、`activeClassName` 去做設定。範例分別使用於 `index.html`使用傳統 `CSS` 載入、Inline Style、外部引入 `Inline Style` 寫法。
+`Link` 组件主要用于点击后连结转换，可以想成是 `<a>` 超连结的 React 版本。若是希望当点击时候有对应的 css style，可以使用 `activeStyle`、`activeClassName` 去做设定。范例分别使用于 `index.html`使用传统 `CSS` 载入、Inline Style、外部引入 `Inline Style` 写法。
 
 2. IndexLink
-IndexLink 主要是了處理 `index` 用途，特別注意當 child route `actived` 時，parent route 也會 `actived`。所以我們回首頁的連結使用 `<IndexLink />` 內部的 `onlyActiveOnIndex` 屬性來解決這個問題。
+IndexLink 主要是了处理 `index` 用途，特别注意当 child route `actived` 时，parent route 也会 `actived`。所以我们回首页的连结使用 `<IndexLink />` 内部的 `onlyActiveOnIndex` 属性来解决这个问题。
 
 3. Redirect、IndexRedirect
-這邊雖然沒有用到，但若讀者有需要使用到連結跳轉的話可以參考這兩個元件，用法類似於 `Route` 和 `IndexRedirect`。
+这边虽然没有用到，但若读者有需要使用到连结跳转的话可以参考这两个组件，用法类似于 `Route` 和 `IndexRedirect`。
 
-以下是 `src/components/App/App.js` 完整程式碼：
+以下是 `src/components/App/App.js` 完整程式码：
 
 ```javascript
 import React from 'react';
@@ -230,7 +230,7 @@ const App = (props) => (
       <li><Link to="/user" activeClassName="active">User</Link></li>
       <li><NavLink to="/contacts">Contacts</NavLink></li>
     </ul>
-    <!-- 我們將 App 元件當做每個元件都會載入的母模版，因此可以透過 children 載入對應 URL 的子元件 -->
+    <!-- 我们将 App 组件当做每个组件都会载入的母模版，因此可以透过 children 载入对应 URL 的子组件 -->
     {props.children}
   </div>
 );
@@ -242,9 +242,9 @@ App.propTypes = {
 export default App;
 ```
 
-對應的元件內部使用 Functional Component 進行 UI 渲染：
+对应的组件内部使用 Functional Component 进行 UI 渲染：
 
-以下是 `src/components/Repos/Repos.js` 完整程式碼：
+以下是 `src/components/Repos/Repos.js` 完整程式码：
 
 ```javascript
 import React from 'react';
@@ -263,14 +263,14 @@ Repos.propTypes = {
 export default Repos;
 ```
 
-詳細的程式碼讀者可以參考範例資料夾，若讀者跟著範例完成的話，可以在終端機上執行 `npm start`，並於瀏覽器 `http://localhost:8008`看到以下成果，當你點選連結時會切換對應元件並改變 `actived` 狀態！
+详细的程式码读者可以参考范例资料夹，若读者跟着范例完成的话，可以在终端机上执行 `npm start`，并于浏览器 `http://localhost:8008`看到以下成果，当你点选连结时会切换对应组件并改变 `actived` 状态！
 
-![範例成果](./images/example.png "範例成果")
+![范例成果](./images/example.png "范例成果")
 
-## 總結
-到這邊我們又一起完成了一個重要的一關，學習 `routing` 對於使用 `React` 開發複雜應用程式是非常重要的一步，接下來我們將一起學習一個相對獨立的單元 `ImmutableJS`，但學習 `ImmutableJS` 可以讓我們在使用 `React` 和 `Flux/Redux` 可以有更好的效能和避免一些副作用。
+## 总结
+到这边我们又一起完成了一个重要的一关，学习 `routing` 对于使用 `React` 开发复杂应用程式是非常重要的一步，接下来我们将一起学习一个相对独立的单元 `ImmutableJS`，但学习 `ImmutableJS` 可以让我们在使用 `React` 和 `Flux/Redux` 可以有更好的效能和避免一些副作用。
 
-## 延伸閱讀
+## 延伸阅读
 1. [Leveling Up With React: React Router](https://css-tricks.com/learning-react-router/)
 2. [Programmatically navigate using react router](http://stackoverflow.com/questions/31079081/programmatically-navigate-using-react-router)
 3. [React Router 使用教程](http://www.ruanyifeng.com/blog/2016/05/react_router.html)
@@ -279,7 +279,7 @@ export default Repos;
 
 （iamge via [seanamarasinghe](http://seanamarasinghe.com/wp-content/uploads/2016/01/react-router-1050x360.jpg)）
 
-## 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：React Component 規格與生命週期（Life Cycle）](https://github.com/kdchang/reactjs101/blob/master/Ch04/react-component-life-cycle.md) | [下一章：ImmutableJS 入門教學](https://github.com/kdchang/reactjs101/blob/master/Ch06/react-immutable-introduction.md) |
+## 任意门
+| [回首页](../../../tree/zh-CN/) | [上一章：React Component 规格与生命周期（Life Cycle）](../Ch04/react-component-life-cycle.md) | [下一章：ImmutableJS 入门教学](../Ch06/react-immutable-introduction.md) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [勘误、提问或许愿](https://github.com/kdchang/reactjs101/issues) |

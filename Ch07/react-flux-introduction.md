@@ -1,22 +1,22 @@
-# Flux 基礎概念與實戰入門
+# Flux 基础概念与实战入门
 
 ![React Flux](./images/react-flux.jpeg "React Flux")
 
 ## 前言
-隨著 React App 複雜度提昇，我們會發現常常需要從 Parent Component 透過 props 傳遞方法到 Child Component 去改變 state tree，不但不方便也難以管理，因此我們需要更好的資料架構來建置更複雜的應用程式。[Flux](https://facebook.github.io/flux/) 是 Facebook 推出的 client-side 應用程式架構（Architecture），主要想解決 `MVC` 架構的一些問題。事實上，Flux 並非一個完整的前端 Framework，其特色在於實現了 Unidirectional Data Flow（單向流）的資料流設計模式，在開發複雜的大型應用程式時可以更容易地管理 state（狀態）。由於 React 主要是負責 View 的部份，所以透過搭配 Flux-like 的資料處理架構，可以更好的去管理我們的 state（狀態），處理複雜的使用者互動（例如：Facebook 同時要維護使用者是否按讚、點擊相片，是否有新訊息等狀態）。
+随着 React App 复杂度提升，我们会发现常常需要从 Parent Component 透过 props 传递方法到 Child Component 去改变 state tree，不但不方便也难以管理，因此我们需要更好的资料架构来建置更复杂的应用程式。[Flux](https://facebook.github.io/flux/) 是 Facebook 推出的 client-side 应用程式架构（Architecture），主要想解决 `MVC` 架构的一些问题。事实上，Flux 并非一个完整的前端 Framework，其特色在于实现了 Unidirectional Data Flow（单向流）的资料流设计模式，在开发复杂的大型应用程式时可以更容易地管理 state（状态）。由于 React 主要是负责 View 的部份，所以透过搭配 Flux-like 的资料处理架构，可以更好的去管理我们的 state（状态），处理复杂的使用者互动（例如：Facebook 同时要维护使用者是否按赞、点击相片，是否有新讯息等状态）。
 
-由於原始的 Flux 架構在實現上有些部分可以精簡和改善，在實務上我們通常會使用開發者社群開發的 Flux-like 相關的架構實現（例如：[Redux](http://redux.js.org/index.html)、[Alt](http://alt.js.org/)、[Reflux](https://github.com/reflux/refluxjs) 等）。不過這邊我們主要會使用 Facebook 本身提供 `Dispatcher API` 函式庫（可以想成是一個 pub/sub 處理器，透過 broadcast 將 `payloads` 傳給註冊的 callback function）並搭配 `NodeJS` 的 `EventEmitter` 模組去完成 Flux 架構的實現。	
+由于原始的 Flux 架构在实现上有些部分可以精简和改善，在实务上我们通常会使用开发者社群开发的 Flux-like 相关的架构实现（例如：[Redux](http://redux.js.org/index.html)、[Alt](http://alt.js.org/)、[Reflux](https://github.com/reflux/refluxjs) 等）。不过这边我们主要会使用 Facebook 本身提供 `Dispatcher API` 函式库（可以想成是一个 pub/sub 处理器，透过 broadcast 将 `payloads` 传给注册的 callback function）并搭配 `NodeJS` 的 `EventEmitter` 模组去完成 Flux 架构的实现。	
 
-## Flux 概念介紹
+## Flux 概念介绍
 ![React Flux](./images/flux-simple-diagram.png "React Flux")
 
-在 Flux Unidirectional Data Flow（單項流）世界裡有四大主角，分別負責不同對應的工作：
+在 Flux Unidirectional Data Flow（单项流）世界里有四大主角，分别负责不同对应的工作：
 
 1. actions / Action Creator 
 
-	action 負責定義所有改變 state（狀態）的行為，可以讓開發者快速了解 App 的各種功能，若你想改變 state 你只能發 action。注意 action 可以是同步或是非同步。例如：新增代辦事項，呼叫非同步 API 獲取資料。
+	action 负责定义所有改变 state（状态）的行为，可以让开发者快速了解 App 的各种功能，若你想改变 state 你只能发 action。注意 action 可以是同步或是非同步。例如：新增代办事项，呼叫非同步 API 获取资料。
 
-	實務上我們會分成 action 和 Action Creator。action 為描述行為的 object（物件），Action Creator 將 action 送給 dispatcher。一般來說符合 Flux Standard Action 的 action 會如以下範例程式碼，具備 `type` 來區別所觸發的行為。而 `payload` 則是所夾帶的資料：
+	实务上我们会分成 action 和 Action Creator。action 为描述行为的 object（物件），Action Creator 将 action 送给 dispatcher。一般来说符合 Flux Standard Action 的 action 会如以下范例程式码，具备 `type` 来区别所触发的行为。而 `payload` 则是所夹带的资料：
 
 	```
 	// action
@@ -30,7 +30,7 @@
 	AppDispatcher.dispatch(addTodo);
 	```
 
-	當發生 rejected Promise 情況：
+	当发生 rejected Promise 情况：
 
 	```
 	{
@@ -42,44 +42,44 @@
 
 2. Dispatcher
 
-	`Dispatcher` 是 Flux 架構的核心，每個 App 只有一個 Dispatcher，提供 API 讓 store 可以註冊 `callback function`，並負責向所有 store 發送 action 事件。在本範例中我們使用 Facebook 提供的 Dispatcher API，其內建有 `dispatch` 和 `subscribe` 方法。
+	`Dispatcher` 是 Flux 架构的核心，每个 App 只有一个 Dispatcher，提供 API 让 store 可以注册 `callback function`，并负责向所有 store 发送 action 事件。在本范例中我们使用 Facebook 提供的 Dispatcher API，其内建有 `dispatch` 和 `subscribe` 方法。
 
 3. Stores
 
-	一個 App 通常會有多個 store 負責存放業務邏輯，根據不同業務會有不同 store，例如：TodoStore、RecipeStore。 store 負責操作和儲存資料並提供 `view` 使用 `listener`（監聽器），若有資料更新即會觸發更新。值得注意的是 store 只提供 `getter API` 讀取資料，若想改變 state 一律發送 action。
+	一个 App 通常会有多个 store 负责存放业务逻辑，根据不同业务会有不同 store，例如：TodoStore、RecipeStore。 store 负责操作和储存资料并提供 `view` 使用 `listener`（监听器），若有资料更新即会触发更新。值得注意的是 store 只提供 `getter API` 读取资料，若想改变 state 一律发送 action。
 
 4. Views（Controller Views）
 
-	這部份是 `React` 負責的範疇，負責提供監聽事件的 `callback function`，當事件發生時重新取得資料並重繪 `View`。
+	这部份是 `React` 负责的范畴，负责提供监听事件的 `callback function`，当事件发生时重新取得资料并重绘 `View`。
 
-## Flux 流程回顧
+## Flux 流程回顾
 
 ![React Flux](./images/flux-react.png "React Flux")
 
-Flux 架構前置作業：
+Flux 架构前置作业：
 
-1. Stores 向 Dispatcher 註冊 callback，當資料改變時告知 Stores
-2. Controller Views 向 Stores 取得初始資料
-3. Controller Views 將資料給 Views 去渲染 UI
-4. Controller Views 向 store 註冊 listener，當資料改變時告知 Controller Views 
+1. Stores 向 Dispatcher 注册 callback，当资料改变时告知 Stores
+2. Controller Views 向 Stores 取得初始资料
+3. Controller Views 将资料给 Views 去渲染 UI
+4. Controller Views 向 store 注册 listener，当资料改变时告知 Controller Views 
 
-Flux 與使用者互動運作流程：
+Flux 与使用者互动运作流程：
 
-1. 使用者和 App 互動，觸發事件，Action Creator 發送 actions 給 Dispatcher
-2. Dispatcher 依序將 action 傳給 store 並由 action type 判斷合適的處理方式
-3. 若有資料更新則會觸發 Controller Views 向 store 註冊的 listener 並向 store 取得更新資料
-4. View 根據 Controller Views 的新資料重新繪製 UI
+1. 使用者和 App 互动，触发事件，Action Creator 发送 actions 给 Dispatcher
+2. Dispatcher 依序将 action 传给 store 并由 action type 判断合适的处理方式
+3. 若有资料更新则会触发 Controller Views 向 store 注册的 listener 并向 store 取得更新资料
+4. View 根据 Controller Views 的新资料重新绘制 UI
 
-## Flux 實戰初體驗
-介紹完了整個 Flux 基本架構後，接下來我們就來動手實作一個簡單 Flux 架構的 Todo，讓使用者可以在 `input` 輸入代辦事項並新增。
+## Flux 实战初体验
+介绍完了整个 Flux 基本架构后，接下来我们就来动手实作一个简单 Flux 架构的 Todo，让使用者可以在 `input` 输入代办事项并新增。
 
-首先，我們先完成一些開發的前置作業，先透過以下指令在根目錄產生 npm 設定檔 `package.json`：
+首先，我们先完成一些开发的前置作业，先透过以下指令在根目录产生 npm 设定档 `package.json`：
 
 ```
 $ npm init
 ```
 
-安裝相關套件（包含開發環境使用的套件）：
+安装相关套件（包含开发环境使用的套件）：
 
 ```
 $ npm install --save react react-dom flux events
@@ -89,11 +89,11 @@ $ npm install --save react react-dom flux events
 $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react html-webpack-plugin webpack webpack-dev-server
 ```
 
-安裝好後我們可以設計一下我們的資料夾結構，首先我們在根目錄建立 `src`，放置 `script` 的 `source` 。在 `components` 資料夾中我們會放置所有 `components`（個別元件資料夾中會用 `index.js` 輸出元件，讓引入元件更簡潔），另外還有 `actions`、`constants`、`dispatcher`、`stores`，其餘設定檔則放置於根目錄下。
+安装好后我们可以设计一下我们的资料夹结构，首先我们在根目录建立 `src`，放置 `script` 的 `source` 。在 `components` 资料夹中我们会放置所有 `components`（个别组件资料夹中会用 `index.js` 输出组件，让引入组件更简洁），另外还有 `actions`、`constants`、`dispatcher`、`stores`，其余设定档则放置于根目录下。
 
-![React Flux 資料夾結構](./images/folder.png "React Flux 資料夾結構")
+![React Flux 资料夹结构](./images/folder.png "React Flux 资料夹结构")
 
-接下來我們參考上一章設定一下開發文檔（`.babelrc`、`.eslintrc`、`webpack.config.js`）。這樣我們就完成了開發環境的設定可以開始動手實作 `React Flux` 應用程式了！
+接下来我们参考上一章设定一下开发文档（`.babelrc`、`.eslintrc`、`webpack.config.js`）。这样我们就完成了开发环境的设定可以开始动手实作 `React Flux` 应用程式了！
 
 HTML Markup：
 
@@ -110,7 +110,7 @@ HTML Markup：
 </html>
 ```
 
-以下為 `src/index.js` 完整程式碼，安排了父 `component` 和在 HTML Markup 插入位置：
+以下为 `src/index.js` 完整程式码，安排了父 `component` 和在 HTML Markup 插入位置：
 
 ```javascript
 import React from 'react';
@@ -136,13 +136,13 @@ class App extends React.Component {
 ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
-通常實務上我們會開一個 `constants` 資料夾存放 `config` 或是 `actionTypes` 常數。以下是 `src/constants/actionTypes.js`：
+通常实务上我们会开一个 `constants` 资料夹存放 `config` 或是 `actionTypes` 常数。以下是 `src/constants/actionTypes.js`：
 
 ```javascript
 export const ADD_TODO = 'ADD_TODO';
 ```
 
-在這個範例中我們繼承了 Facebook 提供的 Dispatcher API（主要是繼承了 `dispatch`、`register` 和 `subscribe` 的方法），打造自己的 DispatcherClass，當使用者觸發 `handleAction()` 會 `dispatch` 出事件。以下是 `src/dispatch/AppDispatcher.js`：
+在这个范例中我们继承了 Facebook 提供的 Dispatcher API（主要是继承了 `dispatch`、`register` 和 `subscribe` 的方法），打造自己的 DispatcherClass，当使用者触发 `handleAction()` 会 `dispatch` 出事件。以下是 `src/dispatch/AppDispatcher.js`：
 
 ```javascript
 // Todo app dispatcher with actions responding to both
@@ -163,7 +163,7 @@ const AppDispatcher = new DispatcherClass();
 export default AppDispatcher;
 ```
 
-以下是我們利用 `AppDispatcher` 打造的 `Action Creator` 由 `handleAction` 負責發出傳入的 `action` ，完整程式碼如 `src/actions/todoActions.js`：
+以下是我们利用 `AppDispatcher` 打造的 `Action Creator` 由 `handleAction` 负责发出传入的 `action` ，完整程式码如 `src/actions/todoActions.js`：
 
 ```javascript
 import AppDispatcher from '../dispatcher/AppDispatcher';
@@ -181,7 +181,7 @@ export const TodoActions = {
 };
 ```
 
-`Store` 主要是負責資料以及業務邏輯處理，我們繼承了 `events` 模組的 `EventEmitter`，當 `action` 傳入 `AppDispatcher.register` 的處理範圍後，根據 `action type` 選擇適合處理的 `store` 進行處理，處理完後透過 `emit` 方法發出事件讓監聽的 `Views Controller` 知道。以下是 `src/stores/TodoStore.js`：
+`Store` 主要是负责资料以及业务逻辑处理，我们继承了 `events` 模组的 `EventEmitter`，当 `action` 传入 `AppDispatcher.register` 的处理范围后，根据 `action type` 选择适合处理的 `store` 进行处理，处理完后透过 `emit` 方法发出事件让监听的 `Views Controller` 知道。以下是 `src/stores/TodoStore.js`：
 
 ```javascript
 import AppDispatcher from '../dispatcher/AppDispatcher';
@@ -222,7 +222,7 @@ AppDispatcher.register((action) => {
 export default TodoStore;
 ```
 
-在這個 React Flux 範例中我們把 `View` 和 `Views Controller` 整合在一起。在 `TodoHeader` 中，我們主要任務是讓使用者可以透過 `input` 新增代辦事項。使用者輸入文字在 `input` 時會觸發 `onChange` 事件，進而更新內部的 `state`，當使用者按了送出鈕就會觸發 `onAdd` 事件，`dispatch` 出 `addTodo event`。以下是 `src/components/TodoHeader.js` 完整範例：
+在这个 React Flux 范例中我们把 `View` 和 `Views Controller` 整合在一起。在 `TodoHeader` 中，我们主要任务是让使用者可以透过 `input` 新增代办事项。使用者输入文字在 `input` 时会触发 `onChange` 事件，进而更新内部的 `state`，当使用者按了送出钮就会触发 `onAdd` 事件，`dispatch` 出 `addTodo event`。以下是 `src/components/TodoHeader.js` 完整范例：
 
 ```javascript
 import React, { Component } from 'react';
@@ -257,7 +257,7 @@ class TodoHeader extends Component {
           <input
             value={this.state.text}
             type="text"
-            placeholder="請輸入代辦事項"
+            placeholder="请输入代办事项"
             onChange={this.onChange}
           />
           <button
@@ -274,7 +274,7 @@ class TodoHeader extends Component {
 export default TodoHeader;
 ```
 
-在上面的 Component 中我們讓使用者可以新增代辦事項，接下來我們要讓新增的代辦事項可以顯示。我們在 `componentDidMount` 設了一個監聽器 `TodoStore` 資料改變時會去把資料重新再更新，這樣當使用者新增代辦事項時 `TodoList` 就會保持同步。當以下是 `src/components/TodoList.js` 完整程式碼：
+在上面的 Component 中我们让使用者可以新增代办事项，接下来我们要让新增的代办事项可以显示。我们在 `componentDidMount` 设了一个监听器 `TodoStore` 资料改变时会去把资料重新再更新，这样当使用者新增代办事项时 `TodoList` 就会保持同步。当以下是 `src/components/TodoList.js` 完整程式码：
 
 ```javascript
 import React, { Component } from 'react';
@@ -317,28 +317,28 @@ class TodoList extends Component {
 export default TodoList;
 ```
 
-若讀者都有跟著上面的步驟走完的話，最後我們在終端機的根目錄位置執行 `npm start` 就可以看到整個成果囉，YA！
+若读者都有跟着上面的步骤走完的话，最后我们在终端机的根目录位置执行 `npm start` 就可以看到整个成果囉，YA！
 ![React Flux ](./images/flux-demo.png "React Flux ")
 
-## 總結
-Flux 優勢：
+## 总结
+Flux 优势：
 
-1. 讓開發者可以快速了解整個 App 中的行為
-2. 資料和業務邏輯統一存放好管理
-3. 讓 View 單純化只負責 UI 的排版不需負責 state 管理
-4. 清楚的架構和分工對於複雜中大型應用程式易於維護和管理程式碼
+1. 让开发者可以快速了解整个 App 中的行为
+2. 资料和业务逻辑统一存放好管理
+3. 让 View 单纯化只负责 UI 的排版不需负责 state 管理
+4. 清楚的架构和分工对于复杂中大型应用程式易于维护和管理程式码
 
-Flux 劣勢：
+Flux 劣势：
 
-1. 程式碼上不夠簡潔
-2. 對於簡單小應用來說稍微複雜
+1. 程式码上不够简洁
+2. 对于简单小应用来说稍微复杂
 
-以上就是 Flux 的實戰入門，我知道一開始接觸 Flux 的讀者一定會覺得很抽象，有些讀者甚至會覺得這個架構到底有什麼好處（明明感覺沒比 MVC 高明到哪去或是一點都不簡潔），但如同上述優點所說 Flux 設計模式的優勢在於清楚的架構和分工對於複雜中大型應用程式易於維護和管理程式碼。若還是不熟悉的讀者可以跟著範例多動手，相信慢慢就可以體會 Flux 的特色。事實上，在開發社群中為了讓 Flux 架構更加簡潔，產生了許多 Flux-like 的架構和函式庫，接下來將帶讀者們進入目前最熱門的架構：`Redux`。
+以上就是 Flux 的实战入门，我知道一开始接触 Flux 的读者一定会觉得很抽象，有些读者甚至会觉得这个架构到底有什么好处（明明感觉没比 MVC 高明到哪去或是一点都不简洁），但如同上述优点所说 Flux 设计模式的优势在于清楚的架构和分工对于复杂中大型应用程式易于维护和管理程式码。若还是不熟悉的读者可以跟着范例多动手，相信慢慢就可以体会 Flux 的特色。事实上，在开发社群中为了让 Flux 架构更加简洁，产生了许多 Flux-like 的架构和函式库，接下来将带读者们进入目前最热门的架构：`Redux`。
 
-## 延伸閱讀
+## 延伸阅读
 1. [Getting To Know Flux, the React.js Architecture](https://scotch.io/tutorials/getting-to-know-flux-the-react-js-architecture)
-2. [Flux 官方網站](https://facebook.github.io/flux/)
-3. [從 Flux 與 MVC 的差異來簡介 Flux](http://blog.techbridge.cc/2016/04/29/introduce-flux-from-flux-and-mvc/)
+2. [Flux 官方网站](https://facebook.github.io/flux/)
+3. [从 Flux 与 MVC 的差异来简介 Flux](http://blog.techbridge.cc/2016/04/29/introduce-flux-from-flux-and-mvc/)
 4. [Flux Stores and ES6](https://medium.com/@softwarecf/flux-stores-and-es6-9b453dbf9db#.uuf1ddj8u)
 5. [React and Flux: Migrating to ES6 with Babel and ESLint](https://medium.com/front-end-developers/react-and-flux-migrating-to-es6-with-babel-and-eslint-6390cf4fd878#.vafamphwy)
 6. [Building an ES6/JSX/React Flux App – Part 2 – The Flux](https://shellmonger.com/2015/08/17/building-an-es6jsxreact-flux-app-part-2-the-flux/)
@@ -347,7 +347,7 @@ Flux 劣勢：
 
 （image via [devjournal](http://devjournal.ru/wp-content/uploads/2016/03/React.js-Flux-Redux.png)、[facebook](https://facebook.github.io/flux/)、[scotch.io](https://cask.scotch.io/2014/10/V70cSEC.png)）
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：ImmutableJS 入門教學](https://github.com/kdchang/reactjs101/blob/master/Ch06/react-immutable-introduction.md) | [下一章：Redux 基礎概念](https://github.com/kdchang/reactjs101/blob/master/Ch07/react-redux-introduction.md) |
+## :door: 任意门
+| [回首页](../../../tree/zh-CN/) | [上一章：ImmutableJS 入门教学](../Ch06/react-immutable-introduction.md) | [下一章：Redux 基础概念](../Ch07/react-redux-introduction.md) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [勘误、提问或许愿](https://github.com/kdchang/reactjs101/issues) |

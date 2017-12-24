@@ -1,77 +1,77 @@
-# 附錄二、用 React Native + Firebase 開發跨平台行動應用程式
+# 附录二、用 React Native + Firebase 开发跨平台行动应用程式
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/react-native-logo.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/react-native-logo.png)
 
 ## 前言
-跨平台（`Wirte once, Run Everywhere`）一直以來是軟體工程的聖杯。過去一段時間市場上有許多嘗試跨平台開發原生行動裝置（Native Mobile App）的解決方案，嘗試運用 HTML、CSS　和 JavaScript 等網頁前端技術達到跨平台的效果，例如：運用 [jQuery Mobile](https://jquerymobile.com/)、[Ionic](http://ionicframework.com/) 和 [Framework7](http://framework7.io/) 等 Mobile UI 框架（Framework）結合 JavaScript 框架並搭配 [Cordova/PhoneGap](https://en.wikipedia.org/wiki/Apache_Cordova) 進行跨平台行動裝置開發。然而，因為這些解決方案通常都是運行在 `WebView` 之上，導致效能和體驗要真正趨近於原生應用程式（Native App）還有一段路要走。
+跨平台（`Wirte once, Run Everywhere`）一直以来是软体工程的圣杯。过去一段时间市场上有许多尝试跨平台开发原生行动装置（Native Mobile App）的解决方案，尝试运用 HTML、CSS　和 JavaScript 等网页前端技术达到跨平台的效果，例如：运用 [jQuery Mobile](https://jquerymobile.com/)、[Ionic](http://ionicframework.com/) 和 [Framework7](http://framework7.io/) 等 Mobile UI 框架（Framework）结合 JavaScript 框架并搭配 [Cordova/PhoneGap](https://en.wikipedia.org/wiki/Apache_Cordova) 进行跨平台行动装置开发。然而，因为这些解决方案通常都是运行在 `WebView` 之上，导致效能和体验要真正趋近于原生应用程式（Native App）还有一段路要走。
 
-不過，隨著 Facebook 工程團隊開發的 [React Native](https://facebook.github.io/react-native/) 橫空出世，想嘗試跨平台解決方案的開發者又有了新的選擇。
+不过，随着 Facebook 工程团队开发的 [React Native](https://facebook.github.io/react-native/) 横空出世，想尝试跨平台解决方案的开发者又有了新的选择。
 
 ## React Native 特色
-在正式開始開發 React Native App 之前我們先來介紹一下 React Native 的主要特色：
+在正式开始开发 React Native App 之前我们先来介绍一下 React Native 的主要特色：
 
-1. 使用 JavaScript（ES6+）和 [React](https://facebook.github.io/react/) 打造跨平台原生應用程式（Learn once, write anywhere）
-2. 使用 Native Components，更貼近原生使用者體驗
-3. 在 JavaScript 和 Native 之間的操作為非同步（Asynchronous）執行，並可用 Chrome 開發者工具除錯，支援 `Hot Reloading`
-4. 使用 [Flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes) 進行排版和布局
-5. 良好的可擴展性（Extensibility），容易整合 Web 生態系標準（XMLHttpRequest、 navigator.geolocation 等）或是原生的元件或函式庫（Objective-C、Java 或 Swift）  
-6. Facebook 已使用 React Native 於自家 Production App 且將持續維護，另外也有持續蓬勃發展的技術社群
-7. 讓 Web 開發者可以使用熟悉的技術切入 Native App 開發
-8. 2015/3 釋出 iOS 版本，2015/9 釋出 Android 版本
-9. 目前更新速度快，平均每兩週發佈新的版本。社群也還持續在尋找最佳實踐，關於版本進展可以[參考這個文件](https://facebook.github.io/react-native/versions.html)
-10. 支援的作業系統為 >= Android 4.1 (API 16) 和 >= iOS 7.0
+1. 使用 JavaScript（ES6+）和 [React](https://facebook.github.io/react/) 打造跨平台原生应用程式（Learn once, write anywhere）
+2. 使用 Native Components，更贴近原生使用者体验
+3. 在 JavaScript 和 Native 之间的操作为非同步（Asynchronous）执行，并可用 Chrome 开发者工具除错，支援 `Hot Reloading`
+4. 使用 [Flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes) 进行排版和布局
+5. 良好的可扩展性（Extensibility），容易整合 Web 生态系标准（XMLHttpRequest、 navigator.geolocation 等）或是原生的组件或函式库（Objective-C、Java 或 Swift）  
+6. Facebook 已使用 React Native 于自家 Production App 且将持续维护，另外也有持续蓬勃发展的技术社群
+7. 让 Web 开发者可以使用熟悉的技术切入 Native App 开发
+8. 2015/3 释出 iOS 版本，2015/9 释出 Android 版本
+9. 目前更新速度快，平均每两周发布新的版本。社群也还持续在寻找最佳实践，关于版本进展可以[参考这个文件](https://facebook.github.io/react-native/versions.html)
+10. 支援的作业系统为 >= Android 4.1 (API 16) 和 >= iOS 7.0
 
-## React Native 初體驗
-在了解了 React Native 特色後，我們準備開始開發我們的 React Native 應用程式！由於我們的範例可以讓程式跨平台共用，所以你可以使用 iOS 和 Android 平台運行。不過若是想在 iOS 平台開發需要先準備 Mac OS 和安裝 [Xcode](https://developer.apple.com/xcode/) 開發工具，若是你準備使用 Android 平台的話建議先行安裝 [Android Studio](https://developer.android.com/studio/index.html) 和 [Genymotion 模擬器](https://www.genymotion.com/)。在我們範例我們使用筆者使用的 MacO OS 作業系統並使用 Android 平台為主要範例，若有其他作業系統需求的讀者可以參考 [官方安裝說明](https://facebook.github.io/react-native/docs/getting-started.html)。
+## React Native 初体验
+在了解了 React Native 特色后，我们准备开始开发我们的 React Native 应用程式！由于我们的范例可以让程式跨平台共用，所以你可以使用 iOS 和 Android 平台运行。不过若是想在 iOS 平台开发需要先准备 Mac OS 和安装 [Xcode](https://developer.apple.com/xcode/) 开发工具，若是你准备使用 Android 平台的话建议先行安装 [Android Studio](https://developer.android.com/studio/index.html) 和 [Genymotion 模拟器](https://www.genymotion.com/)。在我们范例我们使用笔者使用的 MacO OS 作业系统并使用 Android 平台为主要范例，若有其他作业系统需求的读者可以参考 [官方安装说明](https://facebook.github.io/react-native/docs/getting-started.html)。
 
-一開始請先安裝 [Node](https://nodejs.org/en/)、[Watchman](https://facebook.github.io/watchman/) 和 React Native command line 工具：
+一开始请先安装 [Node](https://nodejs.org/en/)、[Watchman](https://facebook.github.io/watchman/) 和 React Native command line 工具：
 
 ```
-// 若你使用 Mac OS 你可以使用官網安裝方式或是使用 homebrew 安裝
+// 若你使用 Mac OS 你可以使用官网安装方式或是使用 homebrew 安装
 $ brew install node
-// watchman 可以監看檔案是否有修改
+// watchman 可以监看档案是否有修改
 $ brew install watchman
 ```
 
 ```
-// 安裝 React Native command line 工具
+// 安装 React Native command line 工具
 $ npm install -g react-native-cli
 ```
 
-由於我們是要開發 Android 平台，所以必須安裝：
-1. 安裝 JDK
-2. 安裝 Android SDK
-3. 設定一些環境變數
+由于我们是要开发 Android 平台，所以必须安装：
+1. 安装 JDK
+2. 安装 Android SDK
+3. 设定一些环境变数
 
-以上可以透過 [Install Android Studio](https://developer.android.com/studio/install.html) 官網和 [官方安裝說明](https://facebook.github.io/react-native/docs/getting-started.html) 步驟完成。
+以上可以透过 [Install Android Studio](https://developer.android.com/studio/install.html) 官网和 [官方安装说明](https://facebook.github.io/react-native/docs/getting-started.html) 步骤完成。
 
-現在，我們先透過一個簡單的 `HelloWorldApp`，讓大家感受一下 React Native 專案如何開發。
+现在，我们先透过一个简单的 `HelloWorldApp`，让大家感受一下 React Native 专案如何开发。
 
-首先，我們先初始化一個 React Native Project：
+首先，我们先初始化一个 React Native Project：
 
 ```
 $ react-native init HelloWorldApp
 ```
 
-初始的資料夾結構長相：
+初始的资料夹结构长相：
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/folder-1.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/folder-1.png)
 
-接下來請先安裝註冊 [Genymotion](https://www.genymotion.com/)，Genymotion 是一個透過電腦模擬 Android 系統的好用開發模擬器環境。安裝完後可以打開並選擇欲使用的螢幕大小和 API 版本的 Android 系統。建立裝置後就可以啟動我們的裝置：
+接下来请先安装注册 [Genymotion](https://www.genymotion.com/)，Genymotion 是一个透过电脑模拟 Android 系统的好用开发模拟器环境。安装完后可以打开并选择欲使用的萤幕大小和 API 版本的 Android 系统。建立装置后就可以启动我们的装置：
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/android-1.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/android-1.png)
 
-若你是使用 Mac OS 作業系統的話可以執行 `run-ios`，若是使用 Android 平台則使用 `run-android` 啟動你的 App。在這邊我們先使用 Android 平台進行開發（若你希望實機測試，請將電腦接上你的 Android 手機，記得確保 menu 中的 ip 位置要和電腦網路 相同。若是遇到連不到程式 server 且手機為 Android 5.0+ 系統，可以執行 `adb reverse tcp:8081 tcp:8081`，詳細情形可以[參考官網說明](https://facebook.github.io/react-native/docs/running-on-device-android.html#using-adb-reverse)）：
+若你是使用 Mac OS 作业系统的话可以执行 `run-ios`，若是使用 Android 平台则使用 `run-android` 启动你的 App。在这边我们先使用 Android 平台进行开发（若你希望实机测试，请将电脑接上你的 Android 手机，记得确保 menu 中的 ip 位置要和电脑网路 相同。若是遇到连不到程式 server 且手机为 Android 5.0+ 系统，可以执行 `adb reverse tcp:8081 tcp:8081`，详细情形可以[参考官网说明](https://facebook.github.io/react-native/docs/running-on-device-android.html#using-adb-reverse)）：
 
 ```
 $ react-native run-android
 ```
 
-如果一切順利的話就可以在模擬器中看到初始畫面：
+如果一切顺利的话就可以在模拟器中看到初始画面：
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/android-2.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/android-2.png)
 
-接著打開 `index.android.js` 就可以看到以下程式碼：
+接着打开 `index.android.js` 就可以看到以下程式码：
 ```javascript
 import React, { Component } from 'react';
 import {
@@ -81,7 +81,7 @@ import {
   View
 } from 'react-native';
 
-// 元件式的開發方式和 React 如出一轍，但要注意的是在 React Native 中我們不使用 HTML 元素而是使用 React Native 元件進行開發，這也符合 Learn once, write anywhere 的原則。
+// 组件式的开发方式和 React 如出一辙，但要注意的是在 React Native 中我们不使用 HTML 元素而是使用 React Native 组件进行开发，这也符合 Learn once, write anywhere 的原则。
 class HelloWorldApp extends Component {
   render() {
     return (
@@ -101,7 +101,7 @@ class HelloWorldApp extends Component {
   }
 }
 
-// 在 React Native 中 styles 是使用 JavaScript 形式來撰寫，與一般 CSS 比較不同的是他使用駝峰式的屬性命名：
+// 在 React Native 中 styles 是使用 JavaScript 形式来撰写，与一般 CSS 比较不同的是他使用驼峰式的属性命名：
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -121,30 +121,30 @@ const styles = StyleSheet.create({
   },
 });
 
-// 告訴 React Native App 你的進入點：
+// 告诉 React Native App 你的进入点：
 AppRegistry.registerComponent('HelloWorldApp', () => HelloWorldApp);
 ```
 
-由於 React Native 有支援 `Hot Reloading`，若我們更改了檔案內容，我們可以使用打開模擬器 Menu 重新刷新頁面，此時就可以在看到原本的 `Welcome to React Native!` 文字已經改成 `Welcome to React Native Rock!!!! `
+由于 React Native 有支援 `Hot Reloading`，若我们更改了档案内容，我们可以使用打开模拟器 Menu 重新刷新页面，此时就可以在看到原本的 `Welcome to React Native!` 文字已经改成 `Welcome to React Native Rock!!!! `
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/android-3.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/android-3.png)
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/android-4.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/android-4.png)
 
-嗯，有沒有感覺在開發網頁的感覺？
+嗯，有没有感觉在开发网页的感觉？
 
-## 動手實作
-相信看到這裡讀者們一定等不及想大展身手，使用 React Native 開發你第一個 App。俗話說學習一項新技術最好的方式就是做一個 TodoApp。所以，接下來的文章，筆者將帶大家使用 React Native 結合 Redux/ImmutableJS 和 Firebase 開發一個記錄和刪除名言佳句（Mottos）的 Mobile App！
+## 动手实作
+相信看到这里读者们一定等不及想大展身手，使用 React Native 开发你第一个 App。俗话说学习一项新技术最好的方式就是做一个 TodoApp。所以，接下来的文章，笔者将带大家使用 React Native 结合 Redux/ImmutableJS 和 Firebase 开发一个记录和删除名言佳句（Mottos）的 Mobile App！
 
-### 專案成果截圖
+### 专案成果截图
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/demo-1.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/demo-1.png)
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/demo-2.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/demo-2.png)
 
-### 環境安裝與設定
+### 环境安装与设定
 
-相關套件安裝：
+相关套件安装：
 
 ```
 $ npm install --save redux react-redux immutable redux-immutable redux-actions uuid firebase
@@ -154,37 +154,37 @@ $ npm install --save redux react-redux immutable redux-immutable redux-actions u
 $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react babel-preset-react-native eslint-plugin-react-native  eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react redux-logger
 ```
 
-安裝完相關工具後我們可以初始化我們專案：
+安装完相关工具后我们可以初始化我们专案：
 
 ```
-// 注意專案不能使用 - 或 _ 命名
+// 注意专案不能使用 - 或 _ 命名
 $ react-native init ReactNativeFirebaseMotto
 $ cd ReactNativeFirebaseMotto
 ```
 
-我們先準備一下我們資料夾架構，將它設計成：
+我们先准备一下我们资料夹架构，将它设计成：
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/folder-2.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/folder-2.png)
 
-### Firebase 簡介與設定
-在這個專案中我們會使用到 [Firebase](https://firebase.google.com/) 這個 `Back-End as Service`的服務，也就是說我們不用自己建立後端程式資料庫，只要使用 Firebase 所提供的 API 就好像有了一個 NoSQL 資料庫一樣，當然 Firebase 不單只有提供資料儲存的功能，但限於篇幅我們這邊將只介紹資料儲存的功能。 
+### Firebase 简介与设定
+在这个专案中我们会使用到 [Firebase](https://firebase.google.com/) 这个 `Back-End as Service`的服务，也就是说我们不用自己建立后端程式资料库，只要使用 Firebase 所提供的 API 就好像有了一个 NoSQL 资料库一样，当然 Firebase 不单只有提供资料储存的功能，但限于篇幅我们这边将只介绍资料储存的功能。 
 
-1. 首先我們進到 Firebase 首頁
-  ![用 React Native + Firebase 開發跨平台行動應用程式](./images/firebase-landing.png)
+1. 首先我们进到 Firebase 首页
+  ![用 React Native + Firebase 开发跨平台行动应用程式](./images/firebase-landing.png)
 
-2. 登入後點選建立專案，依照自己想取的專案名稱命名
+2. 登入后点选建立专案，依照自己想取的专案名称命名
 
-  ![用 React Native + Firebase 開發跨平台行動應用程式](./images/firebase-init.png)
+  ![用 React Native + Firebase 开发跨平台行动应用程式](./images/firebase-init.png)
 
-3. 選擇將 Firebase 加入你的網路應用程式的按鈕可以取得 App ID 的 config 資料，待會我們將會使用到
+3. 选择将 Firebase 加入你的网路应用程式的按钮可以取得 App ID 的 config 资料，待会我们将会使用到
 
-  ![用 React Native + Firebase 開發跨平台行動應用程式](./images/firebase-dashboard.png)
+  ![用 React Native + Firebase 开发跨平台行动应用程式](./images/firebase-dashboard.png)
 
-4. 點選左邊選單中的 Database 並點選 Realtime Database Tab 中的規則
+4. 点选左边选单中的 Database 并点选 Realtime Database Tab 中的规则
 
-  ![用 React Native + Firebase 開發跨平台行動應用程式](./images/firebase-database-0.png)
+  ![用 React Native + Firebase 开发跨平台行动应用程式](./images/firebase-database-0.png)
 
-  設定改為，在範例中為求簡單，我們先不用驗證方式即可操作：
+  设定改为，在范例中为求简单，我们先不用验证方式即可操作：
 
   ```javascript
   {
@@ -195,33 +195,33 @@ $ cd ReactNativeFirebaseMotto
   }
   ```
 
-Firebase 在使用上有許多優點，其中一個使用 Back-End As Service 的好處是你可以專注在應用程式的開發便免花過多時間處理後端基礎建設的部份，更可以讓 Back-End 共用在不同的 client side 中。此外 Firebase 在和 React 整合上也十分容易，你可以想成 Firebase 負責資料的儲存，透過 API 和 React 元件互動，Redux 負責接收管理 client state，若是監聽到 Firebase 後端資料更新後同步更新 state 並重新 render 頁面。
+Firebase 在使用上有许多优点，其中一个使用 Back-End As Service 的好处是你可以专注在应用程式的开发便免花过多时间处理后端基础建设的部份，更可以让 Back-End 共用在不同的 client side 中。此外 Firebase 在和 React 整合上也十分容易，你可以想成 Firebase 负责资料的储存，透过 API 和 React 组件互动，Redux 负责接收管理 client state，若是监听到 Firebase 后端资料更新后同步更新 state 并重新 render 页面。
 
-### 使用 Flexbox 進行 UI 布局設計 
-在 React Native 中是使用 `Flexbox` 進行排版，若讀者對於 Flexbox 尚不熟悉，建議可以[參考這篇文章](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)，若有需要遊戲化的學習工具，也非常推薦這兩個教學小遊戲：[FlexDefense](http://www.flexboxdefense.com/)、[FLEXBOX FROGGY](http://flexboxfroggy.com/)。
+### 使用 Flexbox 进行 UI 布局设计 
+在 React Native 中是使用 `Flexbox` 进行排版，若读者对于 Flexbox 尚不熟悉，建议可以[参考这篇文章](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)，若有需要游戏化的学习工具，也非常推荐这两个教学小游戏：[FlexDefense](http://www.flexboxdefense.com/)、[FLEXBOX FROGGY](http://flexboxfroggy.com/)。
 
-事實上我們可以將 Flexbox 視為一個箱子，最外層是 `flex containers`、內層包的是 `flex items`，在屬性上也有分是針對`flex containers` 還是針對是 `flex items` 設計的。在方向性上由左而右是 `main axis`，而上到下是 `cross axis`。
+事实上我们可以将 Flexbox 视为一个箱子，最外层是 `flex containers`、内层包的是 `flex items`，在属性上也有分是针对`flex containers` 还是针对是 `flex items` 设计的。在方向性上由左而右是 `main axis`，而上到下是 `cross axis`。
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/flexbox-1.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/flexbox-1.png)
 
-在 Flexbox 有許多屬性值，其中最重要的當數 `justifyContent` 和 `alignItems` 以及 `flexDirection`（注意 React Native Style 都是駝峰式寫法），所以我們這邊主要介紹這三個屬性：
+在 Flexbox 有许多属性值，其中最重要的当数 `justifyContent` 和 `alignItems` 以及 `flexDirection`（注意 React Native Style 都是驼峰式写法），所以我们这边主要介绍这三个属性：
 
-Flex Direction 負責決定整個 `flex containers` 的方向，預設為 `row` 也可以改為 `column` 、 `row-reverse` 和 `column-reverse`。
+Flex Direction 负责决定整个 `flex containers` 的方向，预设为 `row` 也可以改为 `column` 、 `row-reverse` 和 `column-reverse`。
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/flexbox-flex-direction.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/flexbox-flex-direction.png)
 
-Justify Content 負責決定整個 `flex containers` 內的 items 的水平擺設，主要屬性值有：`flex-start`、`flex-end`、`center`、`space-between`、`space-around`。
+Justify Content 负责决定整个 `flex containers` 内的 items 的水平摆设，主要属性值有：`flex-start`、`flex-end`、`center`、`space-between`、`space-around`。
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/justify-content.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/justify-content.png)
 
-Align Items 負責決定整個 `flex containers` 內的 items 的垂直擺設，主要屬性值有：`flex-start`、`flex-end`、`center`、`stretch`、`baseline`。
+Align Items 负责决定整个 `flex containers` 内的 items 的垂直摆设，主要属性值有：`flex-start`、`flex-end`、`center`、`stretch`、`baseline`。
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/align-items.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/align-items.png)
 
-## 動手實作
-有了前面的準備，現在我們終於要開始進入核心的應用程式開發了！
+## 动手实作
+有了前面的准备，现在我们终于要开始进入核心的应用程式开发了！
 
-首先我們先設定好整個 App 的進入檔 `index.android.js`，在這個檔案中我們設定了初始化的設定和主要元件 `<Main />`：
+首先我们先设定好整个 App 的进入档 `index.android.js`，在这个档案中我们设定了初始化的设定和主要组件 `<Main />`：
 
 ```javascript
 /**
@@ -249,7 +249,7 @@ class ReactNativeFirebaseMotto extends Component {
 AppRegistry.registerComponent('ReactNativeFirebaseMotto', () => ReactNativeFirebaseMotto);
 ```
 
-在 `src/components/Main/Main.js` 中我們設定好整個 Component 的布局和並將 `Firebase` 引入並初始化，將操作 Firebase 資料庫的參考往下傳，根節點我們命名為 `items`，所以之後所有新增的 motto 都會在這個根節點之下並擁有特定的 key 值。在 Main 我們同樣規劃了整個布局，包括：`<ToolBar />`、`<MottoListContainer />`、`<ActionButtonContainer />`、`<InputModalContainer />`。
+在 `src/components/Main/Main.js` 中我们设定好整个 Component 的布局和并将 `Firebase` 引入并初始化，将操作 Firebase 资料库的参考往下传，根节点我们命名为 `items`，所以之后所有新增的 motto 都会在这个根节点之下并拥有特定的 key 值。在 Main 我们同样规划了整个布局，包括：`<ToolBar />`、`<MottoListContainer />`、`<ActionButtonContainer />`、`<InputModalContainer />`。
 
 ```javascript
 import React from 'react';
@@ -261,7 +261,7 @@ import ActionButtonContainer from '../../containers/ActionButtonContainer';
 import InputModalContainer from '../../containers/InputModalContainer';
 import ListItem from '../ListItem';
 import * as firebase from 'firebase';
-// 將 Firebase 的 config 值引入
+// 将 Firebase 的 config 值引入
 import { firebaseConfig } from '../../constants/config';
 // 引用 Redux store
 import store from '../../store';
@@ -273,7 +273,7 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const rootRef = firebaseApp.database().ref();
 const itemsRef = rootRef.child('items');
 
-// 將 Redux 的 store 透過 Provider 往下傳
+// 将 Redux 的 store 透过 Provider 往下传
 const Main = () => (
   <Provider store={store}>
     <View>
@@ -288,7 +288,7 @@ const Main = () => (
 export default Main; 
 ```
 
-設定完了基本的布局方式後我們來設定 Actions 和其使用的常數，`src/actions/mottoActions.js`：
+设定完了基本的布局方式后我们来设定 Actions 和其使用的常数，`src/actions/mottoActions.js`：
 
 ```javascript
 export const GET_MOTTOS = 'GET_MOTTOS';
@@ -297,7 +297,7 @@ export const SET_IN_MOTTO = 'SET_IN_MOTTO';
 export const TOGGLE_MODAL = 'TOGGLE_MODAL';
 ```
 
-我們在 constants 資料夾中也設定了我們整個 data 的資料結構，以下是 `src/constants/models.js`：
+我们在 constants 资料夹中也设定了我们整个 data 的资料结构，以下是 `src/constants/models.js`：
 
 ```javascript
 import Immutable from 'immutable';
@@ -316,7 +316,7 @@ export const UiState = Immutable.fromJS({
 });
 ```
 
-還記得我們提到的 Firebase config 嗎？這邊我們把相關的設定檔放在`src/configs/config.js`中： 
+还记得我们提到的 Firebase config 吗？这边我们把相关的设定档放在`src/configs/config.js`中： 
 
 ```javascript
 export const firebaseConfig = {
@@ -327,7 +327,7 @@ export const firebaseConfig = {
 };
 ```
 
-在我們應用程式中同樣使用了 `redux` 和 `redux-actions`。在這個範例中我們設計了：GET_MOTTOS、CREATE_MOTTO、SET_IN_MOTTO 三個操作 motto 的 action，分別代表從 Firebase 取出資料、新增資料和 set 資料。以下是 `src/actions/mottoActions.js`：
+在我们应用程式中同样使用了 `redux` 和 `redux-actions`。在这个范例中我们设计了：GET_MOTTOS、CREATE_MOTTO、SET_IN_MOTTO 三个操作 motto 的 action，分别代表从 Firebase 取出资料、新增资料和 set 资料。以下是 `src/actions/mottoActions.js`：
 
 ```javascript
 import { createAction } from 'redux-actions';
@@ -342,7 +342,7 @@ export const createMotto = createAction('CREATE_MOTTO');
 export const setInMotto = createAction('SET_IN_MOTTO');
 ```
 
-同樣地，由於我們設計了當使用者想新增 motto 時會跳出 modal，所以我們可以設定一個 `TOGGLE_MODAL` 負責開關 modal 的 state。以下是 `src/actions/uiActions.js`：
+同样地，由于我们设计了当使用者想新增 motto 时会跳出 modal，所以我们可以设定一个 `TOGGLE_MODAL` 负责开关 modal 的 state。以下是 `src/actions/uiActions.js`：
 
 ```javascript
 import { createAction } from 'redux-actions';
@@ -353,14 +353,14 @@ import {
 export const toggleModal = createAction('TOGGLE_MODAL');
 ```
 
-以下是 `src/actions/index.js`，用來匯出我們的 actions：
+以下是 `src/actions/index.js`，用来汇出我们的 actions：
 
 ```javascript
 export * from './uiActions';
 export * from './mottoActions';
 ```
 
-設定完我們的 actions 後我們來設定 reducers，在這邊我們同樣使用 `redux-actions` 整合 `ImmutableJS`，
+设定完我们的 actions 后我们来设定 reducers，在这边我们同样使用 `redux-actions` 整合 `ImmutableJS`，
 
 ```javascript
 import { handleActions } from 'redux-actions';
@@ -375,7 +375,7 @@ import {
   SET_IN_MOTTO,
 } from '../../constants/actionTypes';
 
-// 透過 set 和 seIn 可以產生 newState
+// 透过 set 和 seIn 可以产生 newState
 const mottoReducers = handleActions({
   GET_MOTTOS: (state, { payload }) => (
     state.set(
@@ -412,7 +412,7 @@ import {
   TOGGLE_MODAL,
 } from '../../constants/actionTypes';
 
-// modal 的顯示與否
+// modal 的显示与否
 const uiReducers = handleActions({
   TOGGLE_MODAL: (state) => (
     state.set(
@@ -425,7 +425,7 @@ const uiReducers = handleActions({
 export default uiReducers;
 ```
 
-以下是 `src/reducers/index.js`，將所有 reducers combine 在一起：
+以下是 `src/reducers/index.js`，将所有 reducers combine 在一起：
 
 ```javascript
 import { combineReducers } from 'redux-immutable';
@@ -440,7 +440,7 @@ const rootReducer = combineReducers({
 export default rootReducer;
 ```
 
-透過 `src/store/configureStore.js`將 reducers 和 initialState 以及要使用的 middleware 整合成 store：
+透过 `src/store/configureStore.js`将 reducers 和 initialState 以及要使用的 middleware 整合成 store：
 
 ```javascript
 import { createStore, applyMiddleware } from 'redux';
@@ -457,7 +457,7 @@ export default createStore(
 );
 ```
 
-設定完資料層的架構後，我們又重新回到 View 的部份，我們開始依序設定我們的 Component 和 Container。首先，我們先設計我們的標題列 ToolBar，以下是 `src/components/ToolBar/ToolBar.js`：
+设定完资料层的架构后，我们又重新回到 View 的部份，我们开始依序设定我们的 Component 和 Container。首先，我们先设计我们的标题列 ToolBar，以下是 `src/components/ToolBar/ToolBar.js`：
 
 ```javascript
 import React from 'react';
@@ -474,7 +474,7 @@ const ToolBar = () => (
 export default ToolBar; 
 ```
 
-以下是 `src/components/ToolBar/toolBarStyles.js`，將底色設定為黃色，文字置中：
+以下是 `src/components/ToolBar/toolBarStyles.js`，将底色设定为黄色，文字置中：
 
 ```javascript
 import { StyleSheet } from 'react-native';
@@ -494,7 +494,7 @@ export default StyleSheet.create({
 });
 ```
 
-以下是 `src/components/MottoList/MottoList.js`，這個 Component 中稍微複雜一些，主要是使用到了 React Native 中的 ListView Component 將資料陣列傳進 dataSource，透過 renderRow 把一個個 row 給 render 出來，過程中我們透過 `!Immutable.is(r1.get('id'), r2.get('id'))` 去判斷整個 ListView 畫面是否需要 loading 新的 item 進來，這樣就可以提高整個 ListView 的效能。
+以下是 `src/components/MottoList/MottoList.js`，这个 Component 中稍微复杂一些，主要是使用到了 React Native 中的 ListView Component 将资料阵列传进 dataSource，透过 renderRow 把一个个 row 给 render 出来，过程中我们透过 `!Immutable.is(r1.get('id'), r2.get('id'))` 去判断整个 ListView 画面是否需要 loading 新的 item 进来，这样就可以提高整个 ListView 的效能。
 
 ```javascript
 import React, { Component } from 'react';
@@ -547,7 +547,7 @@ class MottoList extends Component {
 export default MottoList;
 ```
 
-以下是 `src/components/MottoList/mottoListStyles.js`，我們使用到了 Dimensions，可以根據螢幕的高度來設定整個 ListView 高度：
+以下是 `src/components/MottoList/mottoListStyles.js`，我们使用到了 Dimensions，可以根据萤幕的高度来设定整个 ListView 高度：
 
 ```javascript
 import { StyleSheet, Dimensions } from 'react-native';
@@ -561,7 +561,7 @@ export default StyleSheet.create({
 });
 ```
 
-以下是 `src/components/ListItem/ListItem.js`，我們從 props 收到了上層傳進來的 motto item，顯示出 motto 文字內容。當我們點擊 `<TouchableHighlight>` 時就會刪除該 motto。
+以下是 `src/components/ListItem/ListItem.js`，我们从 props 收到了上层传进来的 motto item，显示出 motto 文字内容。当我们点击 `<TouchableHighlight>` 时就会删除该 motto。
 
 ```javascript
 import React from 'react';
@@ -603,7 +603,7 @@ export default StyleSheet.create({
 });
 ```
 
-以下是 `src/components/ActionButton/ActionButton.js`，當點擊了按鈕則會觸發 onToggleModal 方法，出現新增 motto 的 modal：
+以下是 `src/components/ActionButton/ActionButton.js`，当点击了按钮则会触发 onToggleModal 方法，出现新增 motto 的 modal：
 
 ```javascript
 import React from 'react';
@@ -642,7 +642,7 @@ export default StyleSheet.create({
 });
 ```
 
-以下是 `src/components/InputModal/InputModal.js`，其主要負責 Modal Component 的設計，當輸入內容會觸發 onChangeMottoText 發出 action，注意的是當按下送出鍵，同時會把 Firebase 的參考 itemsRef 送入 onCreateMotto 中，方便透過 API 去即時新增到 Firebase Database，並更新 client state 和重新渲染了 View：
+以下是 `src/components/InputModal/InputModal.js`，其主要负责 Modal Component 的设计，当输入内容会触发 onChangeMottoText 发出 action，注意的是当按下送出键，同时会把 Firebase 的参考 itemsRef 送入 onCreateMotto 中，方便透过 API 去即时新增到 Firebase Database，并更新 client state 和重新渲染了 View：
 
 ```javascript
 import React from 'react';
@@ -737,7 +737,7 @@ export default StyleSheet.create({
 });
 ```
 
-設定完了 Component，我們來探討一下 Container 的部份。以下是 `src/containers/ActionButtonContainer/ActionButtonContainer.js`：
+设定完了 Component，我们来探讨一下 Container 的部份。以下是 `src/containers/ActionButtonContainer/ActionButtonContainer.js`：
 
 ```javascript
 import { connect } from 'react-redux';
@@ -782,7 +782,7 @@ export default connect(
     onChangeMottoText: (text) => (
       dispatch(setInMotto({ path: ['motto', 'text'], value: text }))
     ),
-    // 新增 motto 是透過 itemsRef 將新增的 motto push 進去，新增後要把本地端的 motto 清空，並關閉 modal：
+    // 新增 motto 是透过 itemsRef 将新增的 motto push 进去，新增后要把本地端的 motto 清空，并关闭 modal：
     onCreateMotto: (motto) => (itemsRef) => () => {
       itemsRef.push({ id: uuid.v4(), text: motto.get('text'), updatedAt: Date.now() });
       dispatch(setInMotto({ path: ['motto'], value: Immutable.fromJS({ id: '', text: '', updatedAt: '' })}));
@@ -827,7 +827,7 @@ export default connect(
     onChangeMottoTitle: (title) => (
       dispatch(changeMottoTitle({ value: title }))
     ),
-    // 判斷點擊的是哪一個 item 取出其 key，透過 itemsRef 將其移除
+    // 判断点击的是哪一个 item 取出其 key，透过 itemsRef 将其移除
     onDeleteMotto: (mottos) => (id, itemsRef) => () => {
       mottos.forEach((value, key) => {
         if(value.get('id') === id) {
@@ -846,26 +846,26 @@ export default connect(
 )(MottoList);
 ```
 
-最後我們可以透過啟動模擬器後使用以下指令開啟我們 App！
+最后我们可以透过启动模拟器后使用以下指令开启我们 App！
 
 ```
 $ react-native run-android
 ```
 
-最後的成果：
+最后的成果：
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/demo-1.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/demo-1.png)
 
-同時你可以在 Firebase 後台進行觀察，當呼叫 Firebase API 進行資料更動時，Firebase Realtime Database 就會即時更新：
+同时你可以在 Firebase 后台进行观察，当呼叫 Firebase API 进行资料更动时，Firebase Realtime Database 就会即时更新：
 
-![用 React Native + Firebase 開發跨平台行動應用程式](./images/firebase-database-2.png)
+![用 React Native + Firebase 开发跨平台行动应用程式](./images/firebase-database-2.png)
 
-## 總結
-恭喜你！你已經完成了你的第一個 React Native App，若你希望將你開發的應用程式簽章後上架，請參考[官方的說明文件](https://facebook.github.io/react-native/docs/signed-apk-android.html)，當你完成簽章打包等流程後，我們可以獲得 .apk 檔，這時就可以上架到市集讓隔壁班心儀的女生，啊不是，是廣大的 Android 使用者使用你的 App 啦！當然，由於我們的程式碼可以 100% 共用於 iOS 和 Android 端，所以你也可以同步上架到 Apple Store！
+## 总结
+恭喜你！你已经完成了你的第一个 React Native App，若你希望将你开发的应用程式签章后上架，请参考[官方的说明文件](https://facebook.github.io/react-native/docs/signed-apk-android.html)，当你完成签章打包等流程后，我们可以获得 .apk 档，这时就可以上架到市集让隔壁班心仪的女生，啊不是，是广大的 Android 使用者使用你的 App 啦！当然，由于我们的程式码可以 100% 共用于 iOS 和 Android 端，所以你也可以同步上架到 Apple Store！
 
-## 延伸閱讀
-1. [React Native 官方網站](https://facebook.github.io/react-native/)
-2. [React 官方網站](https://facebook.github.io/react/)
+## 延伸阅读
+1. [React Native 官方网站](https://facebook.github.io/react-native/)
+2. [React 官方网站](https://facebook.github.io/react/)
 3. [Redux 官方文件](http://redux.js.org/index.html)
 4. [Ionic Framework vs React Native](https://medium.com/react-id/ionic-framework-hybrid-app-vs-react-native-4facdd93f690#.eh74uqqlk)
 5. [How to Build a Todo App Using React, Redux, and Immutable.js](https://www.sitepoint.com/how-to-build-a-todo-app-using-react-redux-and-immutable-js/)
@@ -892,7 +892,7 @@ $ react-native run-android
 
 (image via [moduscreate](http://moduscreate.com/wp-content/uploads/2015/07/ReactNativelogo.png)、[css-tricks](https://cdn.css-tricks.com/wp-content/uploads/2011/08/flexbox.png)、[teamtreehouse](http://blog.teamtreehouse.com/wp-content/uploads/2012/12/flexbox-justify.png)、[teamtreehouse](http://blog.teamtreehouse.com/wp-content/uploads/2012/12/flexbox-flex-direction.png)、[css-tricks](https://css-tricks.com/wp-content/uploads/2014/05/align-items.svg)、[css-tricks](https://css-tricks.com/wp-content/uploads/2013/04/justify-content.svg))
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：附錄一、React ES5、ES6+ 常見用法對照表](https://github.com/kdchang/reactjs101/tree/master/Appendix01/README.md) | [下一章：附錄三、React 測試入門教學](https://github.com/kdchang/reactjs101/tree/master/Appendix03/README.md) |
+## :door: 任意门
+| [回首页](../../../tree/zh-CN/) | [上一章：附录一、React ES5、ES6+ 常见用法对照表](../Appendix01/README.md) | [下一章：附录三、React 测试入门教学](../Appendix03/README.md) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [勘误、提问或许愿](https://github.com/kdchang/reactjs101/issues) |

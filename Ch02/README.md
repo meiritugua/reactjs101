@@ -1,6 +1,6 @@
-# Ch02 React 開發環境設置與 Webpack 入門
+# Ch02 React 开发环境设置与 Webpack 入门
 
-1. [React 開發環境設置與 Webpack 入門](https://github.com/kdchang/reactjs101/blob/master/Ch02/webpack-dev-enviroment.md)
+1. [React 开发环境设置与 Webpack 入门](../Ch02/webpack-dev-enviroment.md)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) |
+## :door: 任意门
+| [回首页](../../../tree/zh-CN/) |

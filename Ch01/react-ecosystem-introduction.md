@@ -1,39 +1,39 @@
-# React 生態系（Ecosystem）入門簡介
+# React 生态系（Ecosystem）入门简介
 
-![React 生態系（Ecosystem）入門簡介](./images/react-eco-wp.gif "React 生態系（Ecosystem）入門簡介")
+![React 生态系（Ecosystem）入门简介](./images/react-eco-wp.gif "React 生态系（Ecosystem）入门简介")
 
-根據 [React 官方網站](https://facebook.github.io/react/) 的說明：React 是一個專注於 UI（View）的 JavaScript 函式庫（Library）。自從 Facebook 於 2013 年開源 React 這個函式庫後，相關的生態系開始蓬勃發展。事實上，透過學習 React 生態系（ecosystem）的過程中，可以讓我們順便學習現代化 Web 開發的重要觀念（例如：模組化、ES6+、Webpack、Babel、ESLint、函數式程式設計等），成為更好的開發者。 
+根据 [React 官方网站](https://facebook.github.io/react/) 的说明：React 是一个专注于 UI（View）的 JavaScript 函式库（Library）。自从 Facebook 于 2013 年开源 React 这个函式库后，相关的生态系开始蓬勃发展。事实上，透过学习 React 生态系（ecosystem）的过程中，可以让我们顺便学习现代化 Web 开发的重要观念（例如：模组化、ES6+、Webpack、Babel、ESLint、函数式程式设计等），成为更好的开发者。 
 
 ## ReactJS
-ReactJS 是 Facebook 推出的 JavaScript 函式庫，若以 MVC 框架來看，React 定位是在 View 的範疇。在 ReactJS 0.14 版之後，ReactJS 更把原先處理 DOM 的部分獨立出去（react-dom），讓 ReactJS 核心更單純，也更符合 React 所倡導的 `Learn once, write everywhere` 的理念。事實上，ReactJS 本身的 API 相對單純，但由於整個生態系非常龐大，因此學習 React 卻是一條漫長的道路。此外，當你想把 React 應用在你的應用程式時，你通常必須學習整個 React Stack 才能充分發揮 React 的最大優勢。
+ReactJS 是 Facebook 推出的 JavaScript 函式库，若以 MVC 框架来看，React 定位是在 View 的范畴。在 ReactJS 0.14 版之后，ReactJS 更把原先处理 DOM 的部分独立出去（react-dom），让 ReactJS 核心更单纯，也更符合 React 所倡导的 `Learn once, write everywhere` 的理念。事实上，ReactJS 本身的 API 相对单纯，但由于整个生态系非常庞大，因此学习 React 却是一条漫长的道路。此外，当你想把 React 应用在你的应用程式时，你通常必须学习整个 React Stack 才能充分发挥 React 的最大优势。
 
 ## JSX 
-事實上，JSX 並非一種全新的語言，而是一種語法糖（[Syntatic Sugar](https://en.wikipedia.org/wiki/Syntactic_sugar)），一種語法類似 [XML](https://zh.wikipedia.org/wiki/XML) 的 ECMAScript 語法擴充。在 JSX 中 HTML 和組建這些元素標籤的程式碼有緊密的關係，這和過去我們強調 HTML、JavaScript 分離的觀念有很大不同。當然，你可以選擇不要在 React 使用 JSX，不過相信我，當你真正開始撰寫 React 元件（Component）時，你會很慶幸有 JSX 真好。
+事实上，JSX 并非一种全新的语言，而是一种语法糖（[Syntatic Sugar](https://en.wikipedia.org/wiki/Syntactic_sugar)），一种语法类似 [XML](https://zh.wikipedia.org/wiki/XML) 的 ECMAScript 语法扩充。在 JSX 中 HTML 和组建这些元素标签的程式码有紧密的关系，这和过去我们强调 HTML、JavaScript 分离的观念有很大不同。当然，你可以选择不要在 React 使用 JSX，不过相信我，当你真正开始撰写 React 组件（Component）时，你会很庆幸有 JSX 真好。
 
 ## NPM
-NPM（Node Package Manager）是 Node.js 下的主流套件管理工具。在 NPM 上有非常多的套件，可以讓你不用再重造輪子，更可以讓你可以輕鬆用指令管理不同的套件。由於 NPM 主要是基於 [CommonJS](https://en.wikipedia.org/wiki/CommonJS) 的規範，通常必須搭配 Browserify 這樣的工具才能在前端使用 NPM 的模組。然而因 NPM 是基於 Nested Dependency Tree，不同的套件有可能會在引入依賴時會引入相同但不同版本的套件，造成檔案大小過大的情形。這和另一個套件管理工具 [Bower](https://bower.io/) 專注在前端套件且使用 Flat Dependency Tree（讓使用者決定相依的套件版本）是比較不同的地方。
+NPM（Node Package Manager）是 Node.js 下的主流套件管理工具。在 NPM 上有非常多的套件，可以让你不用再重造轮子，更可以让你可以轻松用指令管理不同的套件。由于 NPM 主要是基于 [CommonJS](https://en.wikipedia.org/wiki/CommonJS) 的规范，通常必须搭配 Browserify 这样的工具才能在前端使用 NPM 的模组。然而因 NPM 是基于 Nested Dependency Tree，不同的套件有可能会在引入依赖时会引入相同但不同版本的套件，造成档案大小过大的情形。这和另一个套件管理工具 [Bower](https://bower.io/) 专注在前端套件且使用 Flat Dependency Tree（让使用者决定相依的套件版本）是比较不同的地方。
 
 ## ES6+
-[ES6+](https://babeljs.io/blog/2015/06/07/react-on-es6-plus) 係指 ES6（ES2015）和 ES7 的聯集，在 ES6+ 新的標準當中引入許多新的特性和功能，彌補了過去 JavaScript 被詬病的一些特性。由於未來 React 將以支援 ES6+ 為主，因此直接學習 ES6+ 用法是相對好的選擇，本書的所有範例也將會以 ES6+ 撰寫。
+[ES6+](https://babeljs.io/blog/2015/06/07/react-on-es6-plus) 系指 ES6（ES2015）和 ES7 的联集，在 ES6+ 新的标准当中引入许多新的特性和功能，弥补了过去 JavaScript 被诟病的一些特性。由于未来 React 将以支援 ES6+ 为主，因此直接学习 ES6+ 用法是相对好的选择，本书的所有范例也将会以 ES6+ 撰写。
 
 ## Babel
-由於並非所有瀏覽器都支援 ES6+ 語法，所以透過 [Babel](https://babeljs.io/) 這個 JavaScript 編譯器（可以想成是翻譯機或是翻譯蒟篛）可以讓你的 ES6+ 、JSX 等程式碼轉換成瀏覽器可以看的懂得語法。通常會在資料夾的 root 位置加入 `.bablerc` 進行轉譯規則 `preset` 和引用外掛（plugin）的設定。
+由于并非所有浏览器都支援 ES6+ 语法，所以透过 [Babel](https://babeljs.io/) 这个 JavaScript 编译器（可以想成是翻译机或是翻译蒟篛）可以让你的 ES6+ 、JSX 等程式码转换成浏览器可以看的懂得语法。通常会在资料夹的 root 位置加入 `.bablerc` 进行转译规则 `preset` 和引用外挂（plugin）的设定。
 
-## JavaScript 模組化開發
-隨著 Web 應用程式的複雜性提高，JavaScript 模組化開發已經成為必然的趨勢，以下簡單介紹 JavaScript 模組化的相關規範。事實上，在一開始沒有官方定義的標準時出現了各種社群自行定義的規範和實踐。
+## JavaScript 模组化开发
+随着 Web 应用程式的复杂性提高，JavaScript 模组化开发已经成为必然的趋势，以下简单介绍 JavaScript 模组化的相关规范。事实上，在一开始没有官方定义的标准时出现了各种社群自行定义的规范和实践。
 
 1. CDN-Based
 	
-	也就是最傳統的 `<script>` 引入方式，然而使用這種方式雖然簡單方便，但在開發實際中大型應用程式時會產生許多弊端：
+	也就是最传统的 `<script>` 引入方式，然而使用这种方式虽然简单方便，但在开发实际中大型应用程式时会产生许多弊端：
 
-	- 全域作用域容易造成變數污染和衝突
-	- 文件只能依照 `<script>` 順序載入，不具彈性
-	- 在大型專案中各種資源和版本難以維護
-	- 必須由開發者自行判斷模組和函式庫之間的依賴關係
+	- 全域作用域容易造成变数污染和冲突
+	- 文件只能依照 `<script>` 顺序载入，不具弹性
+	- 在大型专案中各种资源和版本难以维护
+	- 必须由开发者自行判断模组和函式库之间的依赖关系
 
 2. AMD
 
-	[Asynchronous Module Definition](https://en.wikipedia.org/wiki/Asynchronous_module_definition) 簡稱 AMD，為非同步載入模組的規範，其在宣告時模組時即需定義依賴的模組。AMD 常用於瀏覽器端，其最著名的實踐為 [RequireJS](http://requirejs.org/)
+	[Asynchronous Module Definition](https://en.wikipedia.org/wiki/Asynchronous_module_definition) 简称 AMD，为非同步载入模组的规范，其在宣告时模组时即需定义依赖的模组。AMD 常用于浏览器端，其最著名的实践为 [RequireJS](http://requirejs.org/)
 
 	基本格式：
 	```js 
@@ -42,68 +42,68 @@ NPM（Node Package Manager）是 Node.js 下的主流套件管理工具。在 NP
 
 3. CommonJS
 
-	[CommonJS](http://wiki.commonjs.org/wiki/CommonJS) 規範是一種同步模組載入的規範。以 Node.js 其遵守 CommonJS 規範，使用 `require` 進行模組同步載入，並透過 `exports`、`module.exports` 來輸出模組。主要實現為 [Node.js](https://nodejs.org/en/) 伺服器端的同步載入和瀏覽器端的 [Browserify](http://browserify.org/)。
+	[CommonJS](http://wiki.commonjs.org/wiki/CommonJS) 规范是一种同步模组载入的规范。以 Node.js 其遵守 CommonJS 规范，使用 `require` 进行模组同步载入，并透过 `exports`、`module.exports` 来输出模组。主要实现为 [Node.js](https://nodejs.org/en/) 伺服器端的同步载入和浏览器端的 [Browserify](http://browserify.org/)。
 
 4. CMD
 
-	CMD 全稱為 [Common Module Definition](https://github.com/cmdjs/specification/blob/master/draft/module.md)，其規範和 AMD 類似，但相對簡潔，卻又保持和 CommonJS 的兼容性。其最大特色為：依賴就近，延遲執行。主要實現為：[Sea.js](http://seajs.org/docs/#intro)。
+	CMD 全称为 [Common Module Definition](https://github.com/cmdjs/specification/blob/master/draft/module.md)，其规范和 AMD 类似，但相对简洁，却又保持和 CommonJS 的兼容性。其最大特色为：依赖就近，延迟执行。主要实现为：[Sea.js](http://seajs.org/docs/#intro)。
 
 5. UMD
 
-	[Universal Module Definition](https://github.com/umdjs/umd) 是為了要兼容 CommonJS 和 AMD 所設計的規範，希望讓模組能跨平台執行。
+	[Universal Module Definition](https://github.com/umdjs/umd) 是为了要兼容 CommonJS 和 AMD 所设计的规范，希望让模组能跨平台执行。
 
 6. ES6 Module
 
-	ECMAScript6 的標準中定義了 JavaScript 的模組化方式，讓 JavaScript 在開發大型複雜應用程式時上更為方便且易於管理，亦可以取代過去 AMD、CommonJS 等規範，成為通用於瀏覽器端和伺服器端的模組化解決方案。但目前瀏覽器和 Node 在 ES6 模組支援度還不完整，大部分情況需要透過 [Babel](https://babeljs.io/) 轉譯器進行轉譯。
+	ECMAScript6 的标准中定义了 JavaScript 的模组化方式，让 JavaScript 在开发大型复杂应用程式时上更为方便且易于管理，亦可以取代过去 AMD、CommonJS 等规范，成为通用于浏览器端和伺服器端的模组化解决方案。但目前浏览器和 Node 在 ES6 模组支援度还不完整，大部分情况需要透过 [Babel](https://babeljs.io/) 转译器进行转译。
 
 ## Webpack/Browserify + Gulp
-隨著網頁應用程式開發的複雜性提昇，現在的網頁往往不單只是單純的網頁，而是一個網頁應用程式（WebApp）。為了管理複雜的應用程式開發，此時模組化開發方法便顯得日益重要，而理想上的模組化開發工具一直是前端工程的很大的議題。Webpack 和 Browserify + Gulp 則是進行 React 應用程式開發常用的開發工具，可以協助進行自動化程式碼打包、轉譯等重複性工作，提昇開發效率。本書範例主要會搭配 Webpack 進行開發。
+随着网页应用程式开发的复杂性提升，现在的网页往往不单只是单纯的网页，而是一个网页应用程式（WebApp）。为了管理复杂的应用程式开发，此时模组化开发方法便显得日益重要，而理想上的模组化开发工具一直是前端工程的很大的议题。Webpack 和 Browserify + Gulp 则是进行 React 应用程式开发常用的开发工具，可以协助进行自动化程式码打包、转译等重复性工作，提升开发效率。本书范例主要会搭配 Webpack 进行开发。
 
 1. Webpack
 
-	[Webpack](https://webpack.github.io/) 是一個模組打包工具（module bundler），以下列出 Webpack 的幾項主要功能：
-	- 將 CSS、圖片與其他資源打包
-	- 打包之前預處理（Less、CoffeeScript、JSX、ES6 等）的檔案
-	- 依 entry 文件不同，把 .js 分拆為多個 .js 檔案
-	- 整合豐富的 Loader 可以使用（Webpack 本身僅能處理 JavaScript 模組，其餘檔案如：CSS、Image 需要載入不同 Loader 進行處理）
+	[Webpack](https://webpack.github.io/) 是一个模组打包工具（module bundler），以下列出 Webpack 的几项主要功能：
+	- 将 CSS、图片与其他资源打包
+	- 打包之前预处理（Less、CoffeeScript、JSX、ES6 等）的档案
+	- 依 entry 文件不同，把 .js 分拆为多个 .js 档案
+	- 整合丰富的 Loader 可以使用（Webpack 本身仅能处理 JavaScript 模组，其余档案如：CSS、Image 需要载入不同 Loader 进行处理）
 
 2. Browserify
 
-	如同官網上說明的：`Browserify lets you require('modules') in the browser by bundling up all of your dependencies.
-	`，Browserify 是一個可以讓你在瀏覽器端也能使用像 Node 用的 [CommonJS](https://en.wikipedia.org/wiki/CommonJS) 規範一樣，用輸出（export）和引用（require）來管理模組。此外，也能讓前端使用許多在 NPM 中的模組。
+	如同官网上说明的：`Browserify lets you require('modules') in the browser by bundling up all of your dependencies.
+	`，Browserify 是一个可以让你在浏览器端也能使用像 Node 用的 [CommonJS](https://en.wikipedia.org/wiki/CommonJS) 规范一样，用输出（export）和引用（require）来管理模组。此外，也能让前端使用许多在 NPM 中的模组。
 
 3. Gulp
 
-	`Gulp` 是一個前端任務工具自動化管理工具（Task Runner）。隨著前端工程的發展，我們在開發前端應用程式時有許多工作是必須重複進行，例如：打包文件、uglify、將 LESS 轉譯成一般的 CSS 的檔案，轉譯 ES6 語法等工作。若是使用一般手動的方式，往往會造成效率的低下，所以透過像是 [Grunt](http://gruntjs.com/)、Gulp 這類的 Task Runner 不但可以提昇效率，也可以更方便管理這些任務。由於 Gulp 是透過 pipeline 方式來處理檔案，在使用上比起 Grunt 的方式直觀許多，所以這邊我們主要討論的是 Gulp。
+	`Gulp` 是一个前端任务工具自动化管理工具（Task Runner）。随着前端工程的发展，我们在开发前端应用程式时有许多工作是必须重复进行，例如：打包文件、uglify、将 LESS 转译成一般的 CSS 的档案，转译 ES6 语法等工作。若是使用一般手动的方式，往往会造成效率的低下，所以透过像是 [Grunt](http://gruntjs.com/)、Gulp 这类的 Task Runner 不但可以提升效率，也可以更方便管理这些任务。由于 Gulp 是透过 pipeline 方式来处理档案，在使用上比起 Grunt 的方式直观许多，所以这边我们主要讨论的是 Gulp。
 
 ## ESLint
-[ESLint](http://eslint.org/) 是一個提供 JavaScript 和 JSX 的程式碼檢查工具，可以確保團隊的程式碼品質。其支援可插拔的特性，可以根據需求在 `.eslintrc` 設定檢查規則。目前主流的檢查規則會使用 Airbnb 所釋出的 [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react)，在使用上需先安裝 [eslint-config-airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) 等套件。
+[ESLint](http://eslint.org/) 是一个提供 JavaScript 和 JSX 的程式码检查工具，可以确保团队的程式码品质。其支援可插拔的特性，可以根据需求在 `.eslintrc` 设定检查规则。目前主流的检查规则会使用 Airbnb 所释出的 [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react)，在使用上需先安装 [eslint-config-airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) 等套件。
 
 ## React Router
-[React Router](https://github.com/reactjs/react-router) 是 React 中主流使用的 Routing 函式庫，透過 URL 的變化來管理對應的狀態和元件。若開發不刷頁的單頁式（single page application）的 React 應用程式通常都會需要用到。
+[React Router](https://github.com/reactjs/react-router) 是 React 中主流使用的 Routing 函式库，透过 URL 的变化来管理对应的状态和组件。若开发不刷页的单页式（single page application）的 React 应用程式通常都会需要用到。
 
 ## Flux/Redux
-[Flux](https://facebook.github.io/flux/) 是一個實現單項流的應用程式資料架構（architecture），同樣是由 Facebook 推出，並和 React 專注於 View 的部份形成互補。而由 Dan Abramov 所開發的 [Redux](https://github.com/reactjs/redux) 被 React 開發社群認為是 Flux-like 更優雅的作法，也是目前主流搭配 React 的狀態（State）管理工具。讓你在開發複雜的應用程式時可以更方便管理你的狀態（state）。
+[Flux](https://facebook.github.io/flux/) 是一个实现单项流的应用程式资料架构（architecture），同样是由 Facebook 推出，并和 React 专注于 View 的部份形成互补。而由 Dan Abramov 所开发的 [Redux](https://github.com/reactjs/redux) 被 React 开发社群认为是 Flux-like 更优雅的作法，也是目前主流搭配 React 的状态（State）管理工具。让你在开发复杂的应用程式时可以更方便管理你的状态（state）。
 
 ## ImmutableJS
-[ImmutableJS](https://facebook.github.io/immutable-js/)，是一個能讓開發者建立不可變資料結構的函式庫。建立不可變（immutable）資料結構不僅可以讓狀態可預測性更高，也可以提昇程式的效能。
+[ImmutableJS](https://facebook.github.io/immutable-js/)，是一个能让开发者建立不可变资料结构的函式库。建立不可变（immutable）资料结构不仅可以让状态可预测性更高，也可以提升程式的效能。
 
 ## Isomorphic JavaScript
-Isomorphic JavaScript 是指前後端（Client/Server）共用相同部分的程式碼，讓 JavaScript 應用可以同時執行在瀏覽器端和伺服器端，在 React 中可以透過伺服器端渲染（server side rendering）靜態 HTML 的方式達到 Isomorphic JavaScript 效果，讓 SEO 和執行效能更加提昇並讓前後端共用程式碼。而另一個常一起出現的 Universal JavaScript 一般定義更為廣泛，係指可以運行在不同環境下的 JavaScript Code，並不局限於瀏覽器和伺服器端。但要留意的是在 Github 和許多技術文章的分享上會把兩者定義為同一件事情。
+Isomorphic JavaScript 是指前后端（Client/Server）共用相同部分的程式码，让 JavaScript 应用可以同时执行在浏览器端和伺服器端，在 React 中可以透过伺服器端渲染（server side rendering）静态 HTML 的方式达到 Isomorphic JavaScript 效果，让 SEO 和执行效能更加提升并让前后端共用程式码。而另一个常一起出现的 Universal JavaScript 一般定义更为广泛，系指可以运行在不同环境下的 JavaScript Code，并不局限于浏览器和伺服器端。但要留意的是在 Github 和许多技术文章的分享上会把两者定义为同一件事情。
  
-## React 測試
-Facebook 本身有提供 [Test Utilities](https://facebook.github.io/react/docs/test-utils.html)，但由於不夠好用，所以目前主流開發社群比較傾向使用 Airbnb 團隊開發的 [enzyme](https://github.com/airbnb/enzyme)，其可以與市面上常見的測試工具（[Mocha](https://mochajs.org/)、[Karma](https://karma-runner.github.io/)、Jest 等）搭配使用。其中 [Jest](https://facebook.github.io/jest/) 是 Facebook 所開發的單元測試工具，其主要基於 [Jasmine](http://jasmine.github.io/) 所建立的測試框架。Jest 除了支援 JSDOM 外，也可以自動模擬 (mock) 透過 `require()` 進來的模組，讓開發者可以更專注在目前被測試的模組中。
+## React 测试
+Facebook 本身有提供 [Test Utilities](https://facebook.github.io/react/docs/test-utils.html)，但由于不够好用，所以目前主流开发社群比较倾向使用 Airbnb 团队开发的 [enzyme](https://github.com/airbnb/enzyme)，其可以与市面上常见的测试工具（[Mocha](https://mochajs.org/)、[Karma](https://karma-runner.github.io/)、Jest 等）搭配使用。其中 [Jest](https://facebook.github.io/jest/) 是 Facebook 所开发的单元测试工具，其主要基于 [Jasmine](http://jasmine.github.io/) 所建立的测试框架。Jest 除了支援 JSDOM 外，也可以自动模拟 (mock) 透过 `require()` 进来的模组，让开发者可以更专注在目前被测试的模组中。
 
 ## React Native
-[React Native](https://facebook.github.io/react-native/)和過去的 [Apache Cordova](https://cordova.apache.org/) 等基於 WebView 的解決方案比較不同，它讓開發者可以使用 React 和 JavaScript 開發原生應用程式（Native App），讓 `Learn once, write anywhere` 理想變得可能。
+[React Native](https://facebook.github.io/react-native/)和过去的 [Apache Cordova](https://cordova.apache.org/) 等基于 WebView 的解决方案比较不同，它让开发者可以使用 React 和 JavaScript 开发原生应用程式（Native App），让 `Learn once, write anywhere` 理想变得可能。
 
 ## GraphQL/Relay
-[GraphQL](http://graphql.org/docs/getting-started/) 是 Facebook 所開發的資料查詢語言（Data Query Language），主要是想解決傳統 RESTful API 所遇到的一些問題，並提供前端更有彈性的 API 設計方式。[Relay](https://facebook.github.io/relay/) 則是 Facebook 提出搭配 GraphQL 用於 React 的一個宣告式數據框架，可以降低 Ajax 的請求數量（類似的框架還有 Netflix 推出的 [Falcor](https://netflix.github.io/falcor/)）。但由於目前主流的後端 API 仍以傳統 RESTful API 設計為主，所以在使用 GraphQL 上通常會需要比較大架構設計的變動。因此本書則是把 GraphQL/Relay 介紹放到附錄的部份，讓有興趣的讀者可以自行參考體驗一下。
+[GraphQL](http://graphql.org/docs/getting-started/) 是 Facebook 所开发的资料查询语言（Data Query Language），主要是想解决传统 RESTful API 所遇到的一些问题，并提供前端更有弹性的 API 设计方式。[Relay](https://facebook.github.io/relay/) 则是 Facebook 提出搭配 GraphQL 用于 React 的一个宣告式数据框架，可以降低 Ajax 的请求数量（类似的框架还有 Netflix 推出的 [Falcor](https://netflix.github.io/falcor/)）。但由于目前主流的后端 API 仍以传统 RESTful API 设计为主，所以在使用 GraphQL 上通常会需要比较大架构设计的变动。因此本书则是把 GraphQL/Relay 介绍放到附录的部份，让有兴趣的读者可以自行参考体验一下。
 
-## 總結
-以上就是讀者在 React 生態系遊走時會遇到的各種關卡，也許有些初學者會對於這樣龐大的體系所嚇到，放棄學習 React 這項革新性技術的機會。不過別擔心，接下來筆者將帶領讀者按圖索驥，依序介紹整個 React 生態系的各種技術，一步步帶領大家用 React 實作出生活中會用到的應用程式。
+## 总结
+以上就是读者在 React 生态系游走时会遇到的各种关卡，也许有些初学者会对于这样庞大的体系所吓到，放弃学习 React 这项革新性技术的机会。不过别担心，接下来笔者将带领读者按图索骥，依序介绍整个 React 生态系的各种技术，一步步带领大家用 React 实作出生活中会用到的应用程式。
 
-## 延伸閱讀
+## 延伸阅读
 1. [Navigating the React.JS Ecosystem](https://www.toptal.com/react/navigating-the-react-ecosystem)
 2. [petehunt/react-howto](https://github.com/petehunt/react-howto#learning-relay-falcor-etc)
 3. [React Ecosystem - A summary](https://staminaloops.github.io/undefinedisnotafunction/react-ecosystem/)
@@ -117,7 +117,7 @@ Facebook 本身有提供 [Test Utilities](https://facebook.github.io/react/docs/
 
 （image via [jpsierens](http://jpsierens.com/wp-content/uploads/2016/06/react-eco-wp.gif)）
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：Web 前端工程入門簡介](https://github.com/kdchang/reactjs101/blob/master/Ch01/front-end-introduction.md) | [下一章：React 開發環境設置與 Webpack 入門教學](https://github.com/kdchang/reactjs101/blob/master/Ch02/webpack-dev-enviroment.md) |
+## :door: 任意门
+| [回首页](../../../tree/zh-CN/) | [上一章：Web 前端工程入门简介](../Ch01/front-end-introduction.md) | [下一章：React 开发环境设置与 Webpack 入门教学](../Ch02/webpack-dev-enviroment.md) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [勘误、提问或许愿](https://github.com/kdchang/reactjs101/issues) |

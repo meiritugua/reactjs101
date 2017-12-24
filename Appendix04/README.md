@@ -1,31 +1,31 @@
-# 附錄四、GraphQL/Relay 初體驗
+# 附录四、GraphQL/Relay 初体验
 
-![Relay/GraphQL 初體驗](./images/relay-graphql.png)
+![Relay/GraphQL 初体验](./images/relay-graphql.png)
 
 ## 前言
-GraphQL 的出現主要是為了要解決 Web/Mobile 端不斷增加的 API 請求所衍生的問題。由於 RESTful 最大的功能在於很有效的前後端分離和建立 stateless 請求，然而 RESTful API 的資源設計上比較偏向單方面的互動，若是有著複雜資源間的關聯就會出現請求次數過多，遇到不少的瓶頸。
+GraphQL 的出现主要是为了要解决 Web/Mobile 端不断增加的 API 请求所衍生的问题。由于 RESTful 最大的功能在于很有效的前后端分离和建立 stateless 请求，然而 RESTful API 的资源设计上比较偏向单方面的互动，若是有着复杂资源间的关联就会出现请求次数过多，遇到不少的瓶颈。
 
-## GraphQL 初體驗
+## GraphQL 初体验
 
 >GraphQL is a data query language and runtime designed and used at Facebook to request and deliver data to mobile and web apps since 2012.
 
-根據 [GraphQL 官方網站](http://graphql.org/)的定義，GraphQL 是一個資料查詢語言和 runtime。Query responses 是由 client 所宣告決定，而非 server 端，且只會回傳 client 所宣告的內容。此外，GraphQL 是強型別（strong type）且可以容易使用階層（hierarchical）和處理複雜的資料關連性，並更容易讓前端工程師和產品工程師定義 Schema 來使用，賦予前端對於資料的制定能力。
+根据 [GraphQL 官方网站](http://graphql.org/)的定义，GraphQL 是一个资料查询语言和 runtime。Query responses 是由 client 所宣告决定，而非 server 端，且只会回传 client 所宣告的内容。此外，GraphQL 是强型别（strong type）且可以容易使用阶层（hierarchical）和处理复杂的资料关连性，并更容易让前端工程师和产品工程师定义 Schema 来使用，赋予前端对于资料的制定能力。
 
-GraphQL 主要由以下元件構成：
+GraphQL 主要由以下组件构成：
 
-1. 類別系統（Type System）
-2. 查詢語言（Query Language）：在 Operations 中 query 只讀取資料而 mutation 寫入操作
-3. 執行語意（Execution Semantics）
-4. 靜態驗證（Static Validation）
-5. 類別檢查（Type Introspection）
+1. 类别系统（Type System）
+2. 查询语言（Query Language）：在 Operations 中 query 只读取资料而 mutation 写入操作
+3. 执行语意（Execution Semantics）
+4. 静态验证（Static Validation）
+5. 类别检查（Type Introspection）
 
-一般 RESTful 在取用資源時會對應到 HTTP 中 `GET`、`POST`、`DELETE`、`PUT` 等方法，並以 URL 對應的方式去取得資源，例如：
+一般 RESTful 在取用资源时会对应到 HTTP 中 `GET`、`POST`、`DELETE`、`PUT` 等方法，并以 URL 对应的方式去取得资源，例如：
 
-取得 id 為 3500401 的使用者資料：
+取得 id 为 3500401 的使用者资料：
 
 GET `/users/3500401`
 
-以下則是 GraphQL 宣告的 query 範例，宣告式（declarative）的方式比起 RESTful 感覺起來相對直觀：
+以下则是 GraphQL 宣告的 query 范例，宣告式（declarative）的方式比起 RESTful 感觉起来相对直观：
 
 ```javascript
 {
@@ -42,7 +42,7 @@ GET `/users/3500401`
 }
 ```
 
-接收到 GraphQL query 後 server 回傳結果：
+接收到 GraphQL query 后 server 回传结果：
 
 ```javascript
 {
@@ -59,14 +59,14 @@ GET `/users/3500401`
 }
 ```
 
-### 實戰演練
+### 实战演练
 
-在 GraphQL 中有取得資料 Query、更改資料 Mutation 等操作。以下我們先介紹如何建立 GraphQL Server 並取得資料。
+在 GraphQL 中有取得资料 Query、更改资料 Mutation 等操作。以下我们先介绍如何建立 GraphQL Server 并取得资料。
 
-1. 環境建置
-	接下來我們將動手建立 GraphQL 的簡單範例，讓大家感受一下 GraphQL 的特性，在這之前我們需要先安裝以下套件建立好環境：
+1. 环境建置
+	接下来我们将动手建立 GraphQL 的简单范例，让大家感受一下 GraphQL 的特性，在这之前我们需要先安装以下套件建立好环境：
 
-	1. [graphql](https://github.com/graphql/graphql-js)：GraphQL 的 JavaScript 實作.
+	1. [graphql](https://github.com/graphql/graphql-js)：GraphQL 的 JavaScript 实作.
 	2. [express](https://github.com/expressjs/express)：Node web framework.
 	3. [express-graphql](https://github.com/graphql/express-graphql), an express middleware that exposes a GraphQL server.
 
@@ -75,7 +75,7 @@ GET `/users/3500401`
 	$ npm install graphql express express-graphql --save
 	```
 
-2. Data 格式設計
+2. Data 格式设计
 
 	以下是 `data.json`：
 
@@ -96,10 +96,10 @@ GET `/users/3500401`
 	}
 	```
 
-3. Server 設計
+3. Server 设计
 
 	```javascript
-	// 引入函式庫
+	// 引入函式库
 	import graphql from 'graphql';
 	import graphqlHTTP from 'express-graphql';
 	import express from 'express';
@@ -107,7 +107,7 @@ GET `/users/3500401`
 	// 引入 data
 	const data = require('./data.json');
 
-	// 定義 User type 的兩個子 fields：`id` 和 `name` 字串，注意型別對於 GraphQL 非常重要
+	// 定义 User type 的两个子 fields：`id` 和 `name` 字串，注意型别对于 GraphQL 非常重要
 	const userType = new graphql.GraphQLObjectType({
 	  name: 'User',
 	  fields: {
@@ -121,13 +121,13 @@ GET `/users/3500401`
 	    name: 'Query',
 	    fields: {
 	      user: {
-	      	// 使用上面定義的 userType
+	      	// 使用上面定义的 userType
 	        type: userType,
-	        // 定義所接受的 user 參數
+	        // 定义所接受的 user 参数
 	        args: {
 	          id: { type: graphql.GraphQLString }
 	        },
-			// 當傳入參數後 resolve 如何處理回傳 data
+			// 当传入参数后 resolve 如何处理回传 data
 	        resolve: function (_, args) {
 	          return data[args.id];
 	        }
@@ -136,7 +136,7 @@ GET `/users/3500401`
 	  })
 	});
 
-	// 啟動 graphql server
+	// 启动 graphql server
 	express()
 	  .use('/graphql', graphqlHTTP({ schema: schema, pretty: true }))
 	  .listen(3000);
@@ -144,19 +144,19 @@ GET `/users/3500401`
 	console.log('GraphQL server running on http://localhost:3000/graphql');
 	```
 
-	在終端機執行：
+	在终端机执行：
 
 	```
 	node index.js
 	```
 
-	這個時候我們可以打開瀏覽器輸入 ` localhost:3000/graphql.`，由於沒有任何 Query，目前會出現以下畫面：
+	这个时候我们可以打开浏览器输入 ` localhost:3000/graphql.`，由于没有任何 Query，目前会出现以下画面：
 
-	![Relay/GraphQL 初體驗](./images/graphql-demo-1.png)
+	![Relay/GraphQL 初体验](./images/graphql-demo-1.png)
 
-4. Query 設計
+4. Query 设计
 
-	當 GraphQL 指令為：
+	当 GraphQL 指令为：
 
 	```javascript
 	{
@@ -166,7 +166,7 @@ GET `/users/3500401`
 	}
 	```	
 
-	將回傳資料：
+	将回传资料：
 	
 	```javascript
 	{
@@ -178,24 +178,24 @@ GET `/users/3500401`
 	}
 	```
 
-	在了解了資料和 Query 設計後，這個時候我們可以打開瀏覽器輸入（當然也可以透過終端機 curl 的方式執行）：
-	`http://localhost:3000/graphql?query={user(id:"1"){name}}`，此時 server 會根據 GET 的資料回傳：
+	在了解了资料和 Query 设计后，这个时候我们可以打开浏览器输入（当然也可以透过终端机 curl 的方式执行）：
+	`http://localhost:3000/graphql?query={user(id:"1"){name}}`，此时 server 会根据 GET 的资料回传：
 
-	![Relay/GraphQL 初體驗](./images/graphql-demo-2.png)
+	![Relay/GraphQL 初体验](./images/graphql-demo-2.png)
 
-到這裡，你已經完成了最簡單的 GraphQL Server 設計了，若你遇到編碼問題，可以嘗試使用 JavaScript 中的 `encodeURI` 去進行轉碼。也可以自己嘗試不同的 Schema 和 Query，感受一下 GraphQL 的特性。事實上，GraphQL 還擁有許多有趣的特色，例如：Fragment、指令、Promise 等，若讀者對於 GraphQL 有興趣可以進一步參考 [GraphQL 官網](http://graphql.org/)。
+到这里，你已经完成了最简单的 GraphQL Server 设计了，若你遇到编码问题，可以尝试使用 JavaScript 中的 `encodeURI` 去进行转码。也可以自己尝试不同的 Schema 和 Query，感受一下 GraphQL 的特性。事实上，GraphQL 还拥有许多有趣的特色，例如：Fragment、指令、Promise 等，若读者对于 GraphQL 有兴趣可以进一步参考 [GraphQL 官网](http://graphql.org/)。
 
-## Relay 初體驗
+## Relay 初体验
 
 >Relay is a new framework from Facebook that provides data-fetching functionality for React applications.
 
-在體驗完 GraphQL 後，我們要來聊聊 Relay。Relay 是 Facebook 為了滿足大型應用程式開發所建構的框架，主要用於處理 React 應用層（Application）的資料互動框架。在 Relay 中可以讓每個 Component 透過 GraphQL 的整合處理可以精確地向 Component props 提供取得的數據，並在 client side 存放一份所有數據的 store 當作暫存。
+在体验完 GraphQL 后，我们要来聊聊 Relay。Relay 是 Facebook 为了满足大型应用程式开发所建构的框架，主要用于处理 React 应用层（Application）的资料互动框架。在 Relay 中可以让每个 Component 透过 GraphQL 的整合处理可以精确地向 Component props 提供取得的数据，并在 client side 存放一份所有数据的 store 当作暂存。
 
-整個 Relay 架構流程圖：
+整个 Relay 架构流程图：
 
-![Relay/GraphQL 初體驗](./images/relay-architecture.png)
+![Relay/GraphQL 初体验](./images/relay-architecture.png)
 
-一般來說要使用 Relay 必須先準備好以下三項工具：
+一般来说要使用 Relay 必须先准备好以下三项工具：
 
 1. A GraphQL Schema
 	- [graphql-js](https://github.com/graphql/graphql-js)
@@ -206,12 +206,12 @@ GET `/users/3500401`
 	- [express-graphql](https://github.com/graphql/express-graphql)
 
 3. Relay
-	- [network layer](https://github.com/facebook/relay/tree/master/src/network-layer/default)：Relay 透過 network layer 傳 GraphQL 給 server
+	- [network layer](https://github.com/facebook/relay/tree/master/src/network-layer/default)：Relay 透过 network layer 传 GraphQL 给 server
 
-接下來我們來透過 React 官方上的範例來讓大家感受一下 Relay 的特性。上面我們有提過：在 Relay 中可以讓每個 Component 透過 GraphQL 的整合處理可以更精確地向 Component props 提供取得的數據，並在 client side 存放一份所有數據的 store 當作暫存。所以，首先我們先建立每個 Component 和 GraphQL/Relay 的對應：
+接下来我们来透过 React 官方上的范例来让大家感受一下 Relay 的特性。上面我们有提过：在 Relay 中可以让每个 Component 透过 GraphQL 的整合处理可以更精确地向 Component props 提供取得的数据，并在 client side 存放一份所有数据的 store 当作暂存。所以，首先我们先建立每个 Component 和 GraphQL/Relay 的对应：
 
 ```javascript
-// 建立 Tea Component，從 this.props.tea 取得資料
+// 建立 Tea Component，从 this.props.tea 取得资料
 class Tea extends React.Component {
   render() {
     var {name, steepingTime} = this.props.tea;
@@ -222,7 +222,7 @@ class Tea extends React.Component {
     );
   }
 }
-// 使用 Relay.createContainer 建立資料溝通窗口 
+// 使用 Relay.createContainer 建立资料沟通窗口 
 Tea = Relay.createContainer(Tea, {
   fragments: {
     tea: () => Relay.QL`
@@ -253,7 +253,7 @@ TeaStore = Relay.createContainer(TeaStore, {
   },
 });
 
-// Route 設計
+// Route 设计
 class TeaHomeRoute extends Relay.Route {
   static routeName = 'Home';
   static queries = {
@@ -277,7 +277,7 @@ ReactDOM.render(
 GraphQL Schema 和 store 建立：
 
 ```javascript
-// 引入函式庫
+// 引入函式库
 import {
   GraphQLInt,
   GraphQLList,
@@ -286,7 +286,7 @@ import {
   GraphQLString,
 } from 'graphql';
 
-// client side 暫存 store，GraphQL Server reponse 會更新 store，再透過 props 傳遞給 Component
+// client side 暂存 store，GraphQL Server reponse 会更新 store，再透过 props 传递给 Component
 const STORE = {
   teas: [
     {name: 'Earl Grey Blue Star', steepingTime: 5},
@@ -303,7 +303,7 @@ const STORE = {
   ],
 };
 
-// 設計 GraphQL Type
+// 设计 GraphQL Type
 var TeaType = new GraphQLObjectType({
   name: 'Tea',
   fields: () => ({
@@ -312,7 +312,7 @@ var TeaType = new GraphQLObjectType({
   }),
 });
 
-// 將 Tea 整合進來
+// 将 Tea 整合进来
 var StoreType = new GraphQLObjectType({
   name: 'Store',
   fields: () => ({
@@ -320,7 +320,7 @@ var StoreType = new GraphQLObjectType({
   }),
 });
 
-// 輸出 GraphQL Schema
+// 输出 GraphQL Schema
 export default new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Query',
@@ -334,25 +334,25 @@ export default new GraphQLSchema({
 });
 ```
 
-限於篇幅，我們只能讓大家感受一下 Relay 的簡單範例，若大家想進一步體驗 Relay 的優勢，已經幫你準備好 GraphQL Server、transpiler 的 [Relay Starter Kit](https://github.com/relayjs/relay-starter-kit) 專案會是個很好的開始。
+限于篇幅，我们只能让大家感受一下 Relay 的简单范例，若大家想进一步体验 Relay 的优势，已经帮你准备好 GraphQL Server、transpiler 的 [Relay Starter Kit](https://github.com/relayjs/relay-starter-kit) 专案会是个很好的开始。
 
-## 總結
-React 生態系中，除了前端 View 的部份有革新性的創新外，GraphQL 更是對於資料取得的全新思路。雖然 GraphQL 和 Relay 已經成為開源專案，但技術上仍持續演進，若需要在團隊 production 上導入仍可以持續觀察。到這邊，若是一路從第一章看到這裡的讀者真的要給自己一個熱烈掌聲了，我知道對於初學者來說 React 龐大且有許多的新的觀念需要消化，但如同筆者在最初時所提到的，學習 React 重要的是透過這個生態系去學習現代化網頁開發的工具和方法以及思路，成為更好的開發者。根據前端摩爾定律，每半年就有一次大變革，但基本 Web 問題和觀念依然不變，大家一起加油啦！若有任何問題都歡迎來信給筆者或是發 `issue`，當然 PR is welcome :) 
+## 总结
+React 生态系中，除了前端 View 的部份有革新性的创新外，GraphQL 更是对于资料取得的全新思路。虽然 GraphQL 和 Relay 已经成为开源专案，但技术上仍持续演进，若需要在团队 production 上导入仍可以持续观察。到这边，若是一路从第一章看到这里的读者真的要给自己一个热烈掌声了，我知道对于初学者来说 React 庞大且有许多的新的观念需要消化，但如同笔者在最初时所提到的，学习 React 重要的是透过这个生态系去学习现代化网页开发的工具和方法以及思路，成为更好的开发者。根据前端摩尔定律，每半年就有一次大变革，但基本 Web 问题和观念依然不变，大家一起加油啦！若有任何问题都欢迎来信给笔者或是发 `issue`，当然 PR is welcome :) 
 
-## 延伸閱讀
+## 延伸阅读
 1. [Your First GraphQL Server](https://medium.com/the-graphqlhub/your-first-graphql-server-3c766ab4f0a2#.7e02np1rs)
 2. [搭建你的第一个 GraphQL 服务器](http://qianduan.guru/2016/01/03/Your-First-GraphQL-Server/)
 3. [Learn GraphQL](https://learngraphql.com/)
 4. [GraphQL vs Relay](https://kadira.io/blog/graphql/graphql-vs-relay)
-5. [GraphQL 官網](http://graphql.org/)
-6. [Relay 官網](https://facebook.github.io/relay/)
+5. [GraphQL 官网](http://graphql.org/)
+6. [Relay 官网](https://facebook.github.io/relay/)
 7. [A reference implementation of GraphQL for JavaScript](https://github.com/graphql/graphql-js)
 8. [深入理解 GraphQL](http://taobaofed.org/blog/2016/03/10/graphql-in-depth/)
 9. [Node.js 服务端实践之 GraphQL 初探](http://taobaofed.org/blog/2015/11/26/graphql-basics-server-implementation/)
 
 （image via [facebook](https://facebook.github.io/react/img/blog/relay-components/relay-architecture.png)、[kadira](https://cldup.com/uhBzqnK002.png)）
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：附錄三、React 測試入門教學](https://github.com/kdchang/reactjs101/blob/master/Appendix03/README.md) | 
+## :door: 任意门
+| [回首页](../../../tree/zh-CN/) | [上一章：附录三、React 测试入门教学](../Appendix03/README.md) | 
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [勘误、提问或许愿](https://github.com/kdchang/reactjs101/issues) |

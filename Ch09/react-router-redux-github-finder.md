@@ -1,12 +1,12 @@
-# 用 React + Router + Redux + ImmutableJS 寫一個 Github 查詢應用
+# 用 React + Router + Redux + ImmutableJS 写一个 Github 查询应用
 
 ## 前言
-學了一身本領後，本章將帶大家完成一個單頁式應用程式（Single Page Application），整合 React + Redux + ImmutableJS + React Router 搭配 Github API 製作一個簡單的 Github 使用者查詢應用，實際體驗一下開發 React App 的感受。
+学了一身本领后，本章将带大家完成一个单页式应用程式（Single Page Application），整合 React + Redux + ImmutableJS + React Router 搭配 Github API 制作一个简单的 Github 使用者查询应用，实际体验一下开发 React App 的感受。
 
-## 功能規劃
-讓訪客可以使用 Github ID 搜尋 Github 使用者，展示 Github 使用者名稱、follower、following、avatar_url 並可以返回首頁。
+## 功能规划
+让访客可以使用 Github ID 搜寻 Github 使用者，展示 Github 使用者名称、follower、following、avatar_url 并可以返回首页。
 
-## 使用技術
+## 使用技术
 
 1. React
 2. Redux
@@ -16,21 +16,21 @@
 6. Fetch
 7. [Material UI](http://www.material-ui.com/#/)
 8. Roboto Font from Google Font
-9. Github API（https://api.github.com/users/torvalds）
+9. Github API（https://api.github.com/users/torvalds） 
 
-不過要注意的是 Github API 若沒有使用 App key 的話可以呼叫 API 的次數會受限
+不过要注意的是 Github API 若没有使用 App key 的话可以呼叫 API 的次数会受限
 
-## 專案成果截圖
+## 专案成果截图
 
 ![React Redux](./images/demo-1.png "React Redux")
 
 ![React Redux](./images/demo-2.png "React Redux")
 
 
-## 環境安裝與設定
-1. 安裝 Node 和 NPM
+## 环境安装与设定
+1. 安装 Node 和 NPM
 
-2. 安裝所需套件
+2. 安装所需套件
 
 ```
 $ npm install --save react react-dom redux react-redux react-router immutable redux-immutable redux-actions whatwg-fetch redux-thunk material-ui react-tap-event-plugin
@@ -40,9 +40,9 @@ $ npm install --save react react-dom redux react-redux react-router immutable re
 $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react babel-preset-stage-1 eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react html-webpack-plugin webpack webpack-dev-server redux-logger
 ```
 
-接下來我們先設定一下開發文檔。
+接下来我们先设定一下开发文档。
 
-1. 設定 Babel 的設定檔： `.babelrc`
+1. 设定 Babel 的设定档： `.babelrc`
 
 	```javascript
 	{
@@ -55,7 +55,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 
 	```
 
-2. 設定 ESLint 的設定檔和規則： `.eslintrc`
+2. 设定 ESLint 的设定档和规则： `.eslintrc`
 
 	```javascript
 	{
@@ -69,10 +69,10 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	}
 	```
 
-3. 設定 Webpack 設定檔： `webpack.config.js`
+3. 设定 Webpack 设定档： `webpack.config.js`
 
 	```javascript
-	// 讓你可以動態插入 bundle 好的 .js 檔到 .index.html
+	// 让你可以动态插入 bundle 好的 .js 档到 .index.html
 	const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 	const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
@@ -81,7 +81,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	  inject: 'body',
 	});
 	
-	// entry 為進入點，output 為進行完 eslint、babel loader 轉譯後的檔案位置
+	// entry 为进入点，output 为进行完 eslint、babel loader 转译后的档案位置
 	module.exports = {
 	  entry: [
 	    './src/index.js',
@@ -108,7 +108,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	      },
 	    }],
 	  },
-	  // 啟動開發測試用 server 設定（不能用在 production）
+	  // 启动开发测试用 server 设定（不能用在 production）
 	  devServer: {
 	    inline: true,
 	    port: 8008,
@@ -117,9 +117,9 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	};
 	```
 
-太好了！這樣我們就完成了開發環境的設定可以開始動手實作 `Github Finder` 應用程式了！	
+太好了！这样我们就完成了开发环境的设定可以开始动手实作 `Github Finder` 应用程式了！	
 
-## 動手實作
+## 动手实作
 
 1. Setup Mockup
 
@@ -139,7 +139,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	</html>
 	```
 
-	設定 `webpack.config.js` 的進入點 `src/index.js`：
+	设定 `webpack.config.js` 的进入点 `src/index.js`：
 
 	```javascript
 	import React from 'react';
@@ -153,14 +153,14 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	import ResultPageContainer from './containers/ResultPageContainer';
 	import store from './store';
 
-	// 引入 react-tap-event-plugin 避免 material-ui onTouchTap event 會遇到的問題
+	// 引入 react-tap-event-plugin 避免 material-ui onTouchTap event 会遇到的问题
 	// Needed for onTouchTap
 	// http://stackoverflow.com/a/34015469/988941
 	injectTapEventPlugin();
 	
-	// 用 react-redux 的 Provider 包起來將 store 傳遞下去，讓每個 components 都可以存取到 state
-	// 這邊使用 browserHistory 當做 history，並使用 material-ui 的 MuiThemeProvider 包裹整個 components
-	// 由於這邊是簡易的 App 我們設計了 Main 為母模版，其有兩個子元件 HomePageContainer 和 ResultPageContainer，其中 HomePageContainer 為根位置的子元件
+	// 用 react-redux 的 Provider 包起来将 store 传递下去，让每个 components 都可以存取到 state
+	// 这边使用 browserHistory 当做 history，并使用 material-ui 的 MuiThemeProvider 包裹整个 components
+	// 由于这边是简易的 App 我们设计了 Main 为母模版，其有两个子组件 HomePageContainer 和 ResultPageContainer，其中 HomePageContainer 为根位置的子组件
 	ReactDOM.render(
 	  <Provider store={store}>
 	    <MuiThemeProvider>
@@ -178,7 +178,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 
 2. Actions
 
-	首先先定義 actions 常數：
+	首先先定义 actions 常数：
 
 	```javascript
 	export const SHOW_SPINNER = 'SHOW_SPINNER';
@@ -189,12 +189,12 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	export const CHAGE_USER_ID = 'CHAGE_USER_ID';
 	```	
 
-	現在我們來規劃我們的 actions 的部份，這個範例我們使用到了 `redux-thunk` 來處理非同步的 action（若讀者對於新的 Ajax 處理方式 fetch() 不熟悉可以先[參考這個文件](https://developer.mozilla.org/zh-TW/docs/Web/API/GlobalFetch/fetch)）。以下是 `src/actions/githubActions.js` 完整程式碼：
+	现在我们来规划我们的 actions 的部份，这个范例我们使用到了 `redux-thunk` 来处理非同步的 action（若读者对于新的 Ajax 处理方式 fetch() 不熟悉可以先[参考这个文件](https://developer.mozilla.org/zh-TW/docs/Web/API/GlobalFetch/fetch)）。以下是 `src/actions/githubActions.js` 完整程式码：
 
 	```javascript
-	// 這邊引入了 fetch 的 polyfill，考以讓舊的瀏覽器也可以使用 fetch
+	// 这边引入了 fetch 的 polyfill，考以让旧的浏览器也可以使用 fetch
 	import 'whatwg-fetch';
-	// 引入 actionTypes 常數
+	// 引入 actionTypes 常数
 	import {
 	  GET_GITHUB_INITIATE,
 	  GET_GITHUB_SUCCESS,
@@ -208,9 +208,9 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	  hideSpinner,
 	} from './uiActions';
 
-	// 這邊是這個範例的重點，要學習我們之前尚未講解的非同步 action 處理方式：不同於一般同步 action 直接發送 action，非同步 action 會回傳一個帶有 dispatch 參數的 function，裡面使用了 Ajax（這裡使用 fetch()）進行處理
-	// 一般和 API 互動的流程：INIT（開始請求/秀出 spinner）-> COMPLETE（完成請求/隱藏 spinner）-> ERROR（請求失敗）
-	// 這次我們雖然沒有使用 redux-actions 但我們還是維持標準 Flux Standard Action 格式：{ type: '', payload: {} }
+	// 这边是这个范例的重点，要学习我们之前尚未讲解的非同步 action 处理方式：不同于一般同步 action 直接发送 action，非同步 action 会回传一个带有 dispatch 参数的 function，里面使用了 Ajax（这里使用 fetch()）进行处理
+	// 一般和 API 互动的流程：INIT（开始请求/秀出 spinner）-> COMPLETE（完成请求/隐藏 spinner）-> ERROR（请求失败）
+	// 这次我们虽然没有使用 redux-actions 但我们还是维持标准 Flux Standard Action 格式：{ type: '', payload: {} }
 
 	export const getGithub = (userId = 'torvalds') => {
 	  return (dispatch) => {
@@ -226,11 +226,11 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	  } 
 	}
 
-	// 同步 actions 處理，回傳 action 物件
+	// 同步 actions 处理，回传 action 物件
 	export const changeUserId = (text) => ({ type: CHAGE_USER_ID, payload: { userId: text } });
 	```
 	
-	以下是 `src/actions/uiActions.js` 負責處理 UI 的行為：
+	以下是 `src/actions/uiActions.js` 负责处理 UI 的行为：
 
 	```javascript
 	import { createAction } from 'redux-actions';
@@ -239,12 +239,12 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	  HIDE_SPINNER,
 	} from '../constants/actionTypes';
 	
-	// 同步 actions 處理，回傳 action 物件
+	// 同步 actions 处理，回传 action 物件
 	export const showSpinner = () => ({ type: SHOW_SPINNER});
 	export const hideSpinner = () => ({ type: HIDE_SPINNER});
 	```
 
-	透過於 `src/actions/index.js` 將我們 actions 輸出
+	透过于 `src/actions/index.js` 将我们 actions 输出
 
 	```javascript
 	export * from './uiActions';
@@ -253,7 +253,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 
 3. Reducers
 
-	接下來我們要來設定一下 Reducers 和 models（initialState 格式）的設計，注意我們這個範例都是使用 `ImmutableJS`。以下是 `src/constants/models.js`：
+	接下来我们要来设定一下 Reducers 和 models（initialState 格式）的设计，注意我们这个范例都是使用 `ImmutableJS`。以下是 `src/constants/models.js`：
 
 	```javascript
 	import Immutable from 'immutable';
@@ -262,7 +262,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	  spinnerVisible: false,
 	});
 
-	// 我們使用 userId 來暫存使用者 ID，data 存放 Ajax 取回的資料
+	// 我们使用 userId 来暂存使用者 ID，data 存放 Ajax 取回的资料
 	export const GithubState = Immutable.fromJS({
 	  userId: '',
 	  data: {},
@@ -283,13 +283,13 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	} from '../../constants/actionTypes';
 
 	const githubReducers = handleActions({ 
-	  // 當使用者按送出按鈕，發出 GET_GITHUB_SUCCESS action 時將接收到的資料 merge 
+	  // 当使用者按送出按钮，发出 GET_GITHUB_SUCCESS action 时将接收到的资料 merge 
 	  GET_GITHUB_SUCCESS: (state, { payload }) => (
 	    state.merge({
 	      data: payload.data,
 	    })
 	  ),  
-	  // 當使用者輸入使用者 ID 會發出 CHAGE_USER_ID action 時將接收到的資料 merge 
+	  // 当使用者输入使用者 ID 会发出 CHAGE_USER_ID action 时将接收到的资料 merge 
 	  CHAGE_USER_ID: (state, { payload }) => (
 	    state.merge({
 	      'userId':
@@ -313,7 +313,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	  HIDE_SPINNER,
 	} from '../../constants/actionTypes';
 
-	// 隨著 fetch 結果顯示 spinner
+	// 随着 fetch 结果显示 spinner
 	const uiReducers = handleActions({
 	  SHOW_SPINNER: (state) => (
 	    state.set(
@@ -332,7 +332,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	export default uiReducers;
 	```
 
-	將 reduces 使用 `redux-immutable` 的 `combineReducers` 在一起。以下是 `src/reducers/index.js`：
+	将 reduces 使用 `redux-immutable` 的 `combineReducers` 在一起。以下是 `src/reducers/index.js`：
 
 	```javascript
 	import { combineReducers } from 'redux-immutable';
@@ -347,7 +347,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	export default rootReducer;
 	```
 
-	運用 redux 提供的 createStore API 把 `rootReducer`、`initialState`、`middlewares` 整合後創建出 store。以下是 `src/store/configureSotore.js`
+	运用 redux 提供的 createStore API 把 `rootReducer`、`initialState`、`middlewares` 整合后创建出 store。以下是 `src/store/configureSotore.js`
 
 	```javascript
 	import { createStore, applyMiddleware } from 'redux';
@@ -367,7 +367,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 
 4. Build Component
 	
-	終於我們進入了 View 的細節設計，首先我們先針對母模版，也就是每個頁面都會出現的 `AppBar` 做設計。以下是 `src/components/Main/Main.js`： 
+	终于我们进入了 View 的细节设计，首先我们先针对母模版，也就是每个页面都会出现的 `AppBar` 做设计。以下是 `src/components/Main/Main.js`： 
 
 	```javascript
 	import React from 'react';
@@ -386,7 +386,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	  </div>
 	);
 
-	// 進行 propTypes 驗證
+	// 进行 propTypes 验证
 	Main.propTypes = {
 	  children: React.PropTypes.object,
 	};
@@ -398,7 +398,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 
 	```javascript
 	import React from 'react';
-	// 使用 react-router 的 Link 當做超連結，傳送 userId 當作 query
+	// 使用 react-router 的 Link 当做超连结，传送 userId 当作 query
 	import { Link } from 'react-router';
 	import RaisedButton from 'material-ui/RaisedButton';
 	import TextField from 'material-ui/TextField';
@@ -427,7 +427,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	export default HomePage;
 	```
 
-	以下是 `src/components/ResultPage/ResultPage.js`，將 `userId` 當作 `props` 傳給 `<GithubBox />`： 
+	以下是 `src/components/ResultPage/ResultPage.js`，将 `userId` 当作 `props` 传给 `<GithubBox />`： 
 
 
 	```javascript
@@ -443,12 +443,12 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	export default ResultPage;
 	```
 
-	以下是 `src/components/GithubBox/GithubBox.js`，負責擷取的 Github 資料呈現：
+	以下是 `src/components/GithubBox/GithubBox.js`，负责撷取的 Github 资料呈现：
 
 	```javascript
 	import React from 'react';
 	import { Link } from 'react-router';
-	// 引入 material-ui 的卡片式元件
+	// 引入 material-ui 的卡片式组件
 	import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 	// 引入 material-ui 的 RaisedButton
 	import RaisedButton from 'material-ui/RaisedButton';
@@ -487,7 +487,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 
 5. Connect State to Component
 
-	最後，我們要將 Container 和 Component 連接在一起（若忘記了，請先回去複習 Container 與 Presentational Components 入門！）。以下是 `src/containers/HomePage/HomePage.js`，負責將 userId 和使用到的事件處理方法用 props 傳進 component ：
+	最后，我们要将 Container 和 Component 连接在一起（若忘记了，请先回去复习 Container 与 Presentational Components 入门！）。以下是 `src/containers/HomePage/HomePage.js`，负责将 userId 和使用到的事件处理方法用 props 传进 component ：
 
 	```javascript
 	import { connect } from 'react-redux';
@@ -536,14 +536,14 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 
 6. That's it
 
-	若一切順利的話，這時候你可以在終端機下 `$ npm start` 指令，然後在 `http://localhost:8008` 就可以看到你的努力成果囉！
+	若一切顺利的话，这时候你可以在终端机下 `$ npm start` 指令，然后在 `http://localhost:8008` 就可以看到你的努力成果囉！
 
 	![React Redux](./images/demo-1.png "React Redux")
 
-## 總結
-本章帶領讀者們從零開始整合 React + Redux + ImmutableJS + React Router 搭配 Github API 製作一個簡單的 Github 使用者查詢應用。下一章我們將挑戰進階應用，學習 Server Side Rendering 方面的知識，並用 React + Redux + Node（Isomorphic）開發一個食譜分享網站。
+## 总结
+本章带领读者们从零开始整合 React + Redux + ImmutableJS + React Router 搭配 Github API 制作一个简单的 Github 使用者查询应用。下一章我们将挑战进阶应用，学习 Server Side Rendering 方面的知识，并用 React + Redux + Node（Isomorphic）开发一个食谱分享网站。
 
-## 延伸閱讀
+## 延伸阅读
 
 1. [Tutorial: build a weather app with React](http://joanmira.com/tutorial-build-a-weather-app-with-react/)
 2. [OpenWeatherMap](http://openweathermap.org/)
@@ -555,7 +555,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 8. [Github API](https://api.github.com/)
 9. [传统 Ajax 已死，Fetch 永生](https://github.com/camsong/blog/issues/2)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：Container 與 Presentational Components 入門](https://github.com/kdchang/reactjs101/blob/master/Ch08/container-presentational-component-.md) | [下一章：React Redux Sever Rendering（Isomorphic JavaScript）入門](https://github.com/kdchang/reactjs101/blob/master/Ch10/react-redux-server-rendering-isomorphic-javascript.md) |
+## :door: 任意门
+| [回首页](../../../tree/zh-CN/) | [上一章：Container 与 Presentational Components 入门](../Ch08/container-presentational-component-.md) | [下一章：React Redux Sever Rendering（Isomorphic JavaScript）入门](../Ch10/react-redux-server-rendering-isomorphic-javascript.md) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [勘误、提问或许愿](https://github.com/kdchang/reactjs101/issues) |

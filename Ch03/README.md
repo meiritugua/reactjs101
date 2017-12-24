@@ -1,7 +1,7 @@
-# Ch03 React/JSX/Component 簡介
+# Ch03 React/JSX/Component 简介
 
-1. [ReactJS 與 Component 入門介紹](https://github.com/kdchang/reactjs101/blob/master/Ch03/reactjs-introduction.md)
-2. [JSX 簡明入門教學指南](https://github.com/kdchang/reactjs101/blob/master/Ch03/react-jsx-introduction.md)
+1. [ReactJS 与 Component 入门介绍](../Ch03/reactjs-introduction.md)
+2. [JSX 简明入门教学指南](../Ch03/react-jsx-introduction.md)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) |
+## :door: 任意门
+| [回首页](../../../tree/zh-CN/) |

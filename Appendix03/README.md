@@ -1,74 +1,74 @@
-# 附錄三、React 測試入門教學
+# 附录三、React 测试入门教学
 
-![React 測試入門教學](./images/mocha.png)
+![React 测试入门教学](./images/mocha.png)
 
 ## 前言
-測試是軟體開發中非常重要的一個環節，本章我們將帶領大家從撰寫最簡單的測試程式碼到整合 `Mocha` + `Chai` 官方提供的[測試工具](https://facebook.github.io/react/docs/test-utils.html)和 Airbnb 所設計的 [Enzyme](https://github.com/airbnb/enzyme) 進行 React 測試。
+测试是软体开发中非常重要的一个环节，本章我们将带领大家从撰写最简单的测试程式码到整合 `Mocha` + `Chai` 官方提供的[测试工具](https://facebook.github.io/react/docs/test-utils.html)和 Airbnb 所设计的 [Enzyme](https://github.com/airbnb/enzyme) 进行 React 测试。
 
-## Mocha 測試初體驗
-[Mocha](https://mochajs.org/) 是目前頗為流行的 JavaScript 測試框架之一，其可以很方便使用於瀏覽器端和 Node 環境。
+## Mocha 测试初体验
+[Mocha](https://mochajs.org/) 是目前颇为流行的 JavaScript 测试框架之一，其可以很方便使用于浏览器端和 Node 环境。
 
 >Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser, making asynchronous testing simple and fun. Mocha tests run serially, allowing for flexible and accurate reporting, while mapping uncaught exceptions to the correct test cases.
 
-除了 Mocha 外，尚有許多 JavaScript 單元測試工具可以選擇，例如：[Jasmine](http://jasmine.github.io/)、[Karma](http://karma-runner.github.io/1.0/index.html) 等。但本章我們主要使用 `Mocha` + `Chai` 結合 React 官方測試工具和 Enzyme 進行講解。
+除了 Mocha 外，尚有许多 JavaScript 单元测试工具可以选择，例如：[Jasmine](http://jasmine.github.io/)、[Karma](http://karma-runner.github.io/1.0/index.html) 等。但本章我们主要使用 `Mocha` + `Chai` 结合 React 官方测试工具和 Enzyme 进行讲解。
 
-在這邊我們先介紹一些比較常用的 Mocha 使用方法，讓大家熟悉測試的用法（若是已經熟悉撰寫測試程式碼的讀者這部份可以跳過）：
+在这边我们先介绍一些比较常用的 Mocha 使用方法，让大家熟悉测试的用法（若是已经熟悉撰写测试程式码的读者这部份可以跳过）：
 
-1. 安裝環境與套件
+1. 安装环境与套件
 
-	安裝 `react` 和 `react-dom`
+	安装 `react` 和 `react-dom`
 
 	```
 	$ npm install --save react react-dom
 	```
 
-	可以在全域安裝 mocha：  
+	可以在全域安装 mocha：  
 
 	```
 	$ npm install --global mocha
 	```
 
-	也可以在開發環境下本地端安裝（同時安裝了 babel、eslint、webpack 等相關套件，其中以 mocha、chai、babel 為主要必須）：
+	也可以在开发环境下本地端安装（同时安装了 babel、eslint、webpack 等相关套件，其中以 mocha、chai、babel 为主要必须）：
 
 	```
 	$ npm install --save-dev babel-core babel-loader babel-eslint babel-preset-react babel-preset-es2015 eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react webpack webpack-dev-server html-webpack-plugin chai mocha
 ```
 
-2. 測試程式碼
-	1. describe（test suite）：表示一組相關的測試。`describe` 為一個函數，第一個參數為 `test suite`的名稱，第二個參數為實際執行的函數。
-	2. it（test case）：表示一個單獨測試，為測試裡最小單位。`it` 為一個函數，第一個參數為 `test case` 的描述名稱，第二個參數為實際執行的函數。
+2. 测试程式码
+	1. describe（test suite）：表示一组相关的测试。`describe` 为一个函数，第一个参数为 `test suite`的名称，第二个参数为实际执行的函数。
+	2. it（test case）：表示一个单独测试，为测试里最小单位。`it` 为一个函数，第一个参数为 `test case` 的描述名称，第二个参数为实际执行的函数。
 
-	在測試程式碼中會包含一個或多個 `test suite`，而每個 `test suite` 則會包含一個或多個 `test case`。
+	在测试程式码中会包含一个或多个 `test suite`，而每个 `test suite` 则会包含一个或多个 `test case`。
 
-3. 整合 assertion 函式庫 `Chai`
+3. 整合 assertion 函式库 `Chai`
 
-	所謂的 assertion（斷言），就是判斷程式碼的執行成果是否和預期一樣，若是不一致則會發生錯誤。通常一個 test case 會擁有一個或多個 assertion。由於 Mocha 本身是一個測試框架，但不包含 assertion，所以我們使用 [Chai](http://chaijs.com/) 這個適用於瀏覽器端和 Node 端的 BDD / TDD assertion library。在 Chai 中共提供三種操作 assertion 介面風格：Expect、Assert、Should，在這邊我們選擇使用比較接近自然語言的 Expect。
+	所谓的 assertion（断言），就是判断程式码的执行成果是否和预期一样，若是不一致则会发生错误。通常一个 test case 会拥有一个或多个 assertion。由于 Mocha 本身是一个测试框架，但不包含 assertion，所以我们使用 [Chai](http://chaijs.com/) 这个适用于浏览器端和 Node 端的 BDD / TDD assertion library。在 Chai 中共提供三种操作 assertion 介面风格：Expect、Assert、Should，在这边我们选择使用比较接近自然语言的 Expect。
 
-	基本上，expect assertion 的寫法都是類似：開頭為 `expect` 方法 + `to` 或 `to.be` + 結尾 assertion 方法（例如：equal、a/an、ok、match）
+	基本上，expect assertion 的写法都是类似：开头为 `expect` 方法 + `to` 或 `to.be` + 结尾 assertion 方法（例如：equal、a/an、ok、match）
 
 4. Mocha 基本用法
 
-	mocha 若沒指定要執行哪個檔案，預設會執行 `test` 資料夾下第一層的測試程式碼。若要讓 `test` 資料夾中的子資料夾測試碼也執行則要加上 `--recursive` 參數。 
+	mocha 若没指定要执行哪个档案，预设会执行 `test` 资料夹下第一层的测试程式码。若要让 `test` 资料夹中的子资料夹测试码也执行则要加上 `--recursive` 参数。 
 
-	包含子資料夾：
+	包含子资料夹：
 
 	```
 	$ mocha --recursive
 	```
 
-	指定一個檔案
+	指定一个档案
 
 	```
 	$ mocha file1.js 
 	```
 
-	也可以指定多個檔案
+	也可以指定多个档案
 
 	```
 	$ mocha file1.js file2.js
 	```
 
-	現在，我們來撰寫一個簡單的測試程式，親身感受一下測試的感覺。以下是 `react-mocha-test-example/src/modules/add.js`，一個加法的函數：
+	现在，我们来撰写一个简单的测试程式，亲身感受一下测试的感觉。以下是 `react-mocha-test-example/src/modules/add.js`，一个加法的函数：
 
 	```javascript
 	const add = (x, y) => (
@@ -78,7 +78,7 @@
 	export default add;
 	```
 
-	接著我們撰寫測試這個函數的程式碼，測試是否正確。以下是 `react-mocha-test-example/src/test/add.test.js`：
+	接着我们撰写测试这个函数的程式码，测试是否正确。以下是 `react-mocha-test-example/src/test/add.test.js`：
 
 	```
 	// test add.js
@@ -93,14 +93,14 @@
 	));
 	```
 
-	在開始執行 `mocha` 後由於我們使用了，ES6 的語法所以必須使用 bable 進行轉譯，否則會出現類似以下的錯誤：
+	在开始执行 `mocha` 后由于我们使用了，ES6 的语法所以必须使用 bable 进行转译，否则会出现类似以下的错误：
 
 	```
 	import add from '../src/modules/add';
 	^^^^^^
 	```
 
-	我們先行設定 `.bablerc`，我們在之前已經有安裝 `babel` 相關套件和 `presets` 所以就會將 ES2015 語法轉譯。
+	我们先行设定 `.bablerc`，我们在之前已经有安装 `babel` 相关套件和 `presets` 所以就会将 ES2015 语法转译。
 
 	```
 	{
@@ -112,7 +112,7 @@
 	}
 	```
 
-	此時，我們更改 `package.json` 中的 `scripts`，這樣方便每次測試執行：
+	此时，我们更改 `package.json` 中的 `scripts`，这样方便每次测试执行：
 
 	若是使用本地端：
 
@@ -126,7 +126,7 @@
 	$ mocha --compilers js:babel-core/register
 	```
 
-	若是一切順利，我們就可以看到執行測試成功的結果：
+	若是一切顺利，我们就可以看到执行测试成功的结果：
 
 	```
 	$ mocha add.test.js
@@ -138,22 +138,22 @@
 	  1 passing (181ms)
 	```
 
-5. Mocha 指令參數
+5. Mocha 指令参数
 
-	在 Mocha 中有許多可以使用的好用參數，例如：`--recursive` 可以執行執行測試資料夾下的子資料夾程式碼、`--reporter 格式` 更改測試報告格式（預設是 `spec`，也可以更改為 `tap`）、`--watch` 用來監控測試程式碼，當有測試程式碼更新就會重新執行、`--grep` 擷取符合條件的 test case。
+	在 Mocha 中有许多可以使用的好用参数，例如：`--recursive` 可以执行执行测试资料夹下的子资料夹程式码、`--reporter 格式` 更改测试报告格式（预设是 `spec`，也可以更改为 `tap`）、`--watch` 用来监控测试程式码，当有测试程式码更新就会重新执行、`--grep` 撷取符合条件的 test case。
 
-	以上這些參數我們可以都整理在 `test` 資料夾下的 `mocha.opts` 檔案中當作設定資料，此時再次執行 `npm run test` 就會把參數也使用進去。
+	以上这些参数我们可以都整理在 `test` 资料夹下的 `mocha.opts` 档案中当作设定资料，此时再次执行 `npm run test` 就会把参数也使用进去。
 
 	```
 	--watch
 	--reporter spec
 	```
 
-6. 非同步測試
+6. 非同步测试
 
-	在上面我們討論的主要是同步的狀況，但實際上在開發應用時往往會遇到非同步的情形。而在 Mocha 中每個 test case 最多允許執行 2000 毫秒，當時間超過就會顯示錯誤。為了解決這個問題我們可以在 `package.json` 中更改：`"test": "mocha -t 5000 --compilers js:babel-core/register"` 檔案。
+	在上面我们讨论的主要是同步的状况，但实际上在开发应用时往往会遇到非同步的情形。而在 Mocha 中每个 test case 最多允许执行 2000 毫秒，当时间超过就会显示错误。为了解决这个问题我们可以在 `package.json` 中更改：`"test": "mocha -t 5000 --compilers js:babel-core/register"` 档案。
 
-	為了模擬測試非同步的情境，所以我們必須先安裝 [axios](https://github.com/mzabriskie/axios)。
+	为了模拟测试非同步的情境，所以我们必须先安装 [axios](https://github.com/mzabriskie/axios)。
 
 	```
 	$ npm install --save axios
@@ -178,7 +178,7 @@
 	});
 	```
 
-	由於測試環境是在 Node 中，所以我們必須先安裝 [node-fetch](https://github.com/bitinn/node-fetch) 來展現 promise 的情境。
+	由于测试环境是在 Node 中，所以我们必须先安装 [node-fetch](https://github.com/bitinn/node-fetch) 来展现 promise 的情境。
 
 	```
 	$ npm install --save node-fetch 
@@ -199,37 +199,37 @@
 	});
 	```
 
-7. 測試使用的 hook
+7. 测试使用的 hook
 
-	在 Mocha 中的 test suite 中，有 before()、after()、beforeEach() 和 afterEach() 四種 hook，可以讓你設計在特定時間點執行測試。
+	在 Mocha 中的 test suite 中，有 before()、after()、beforeEach() 和 afterEach() 四种 hook，可以让你设计在特定时间点执行测试。
 
 	```javascript
 	describe('hooks', function() {
 	  before(function() {
-	    // 在 before 中的 test case 會在所有 test cases 前執行
+	    // 在 before 中的 test case 会在所有 test cases 前执行
 	  });
 	  after(function() {
-	    // 在 after 中的 test case 會在所有 test cases 後執行
+	    // 在 after 中的 test case 会在所有 test cases 后执行
 	  });
 	  beforeEach(function() {
-	    // 在 beforeEach 中的 test case 會在每個 test cases 前執行
+	    // 在 beforeEach 中的 test case 会在每个 test cases 前执行
 	  });
 	  afterEach(function() {
-	    // 在 afterEach 中的 test case 會在每個 test cases 後執行
+	    // 在 afterEach 中的 test case 会在每个 test cases 后执行
 	  });
 	  // test cases
 	});
 	```
 
-## 動手實作
-在上面我們已經先講解了 `Mocha` + `Chai` 測試工具和基礎的測試寫法。現在接著我們要來探討 React 中的測試用法。然而，要在 React 中測試 Component 以及 JSX 語法時，使用傳統的測試工具並不方便，所以要整合 `Mocha` + `Chai` 官方提供的[測試工具](https://facebook.github.io/react/docs/test-utils.html)和 Airbnb 所設計的 [Enzyme](https://github.com/airbnb/enzyme)（由於官方的測試工具使用起來不太方便所以有第三方針對其進行封裝）進行測試。
+## 动手实作
+在上面我们已经先讲解了 `Mocha` + `Chai` 测试工具和基础的测试写法。现在接着我们要来探讨 React 中的测试用法。然而，要在 React 中测试 Component 以及 JSX 语法时，使用传统的测试工具并不方便，所以要整合 `Mocha` + `Chai` 官方提供的[测试工具](https://facebook.github.io/react/docs/test-utils.html)和 Airbnb 所设计的 [Enzyme](https://github.com/airbnb/enzyme)（由于官方的测试工具使用起来不太方便所以有第三方针对其进行封装）进行测试。
 
-### 使用官方測試工具
-我們知道在 React 一個重要的特色為 Virtual DOM 所以在官方的測試工具中有提供測試 Virtual DOM 的方法：Shallow Rendering（createRenderer），以及測試真實 DOM 的方法：DOM Rendering（renderIntoDocument）。
+### 使用官方测试工具
+我们知道在 React 一个重要的特色为 Virtual DOM 所以在官方的测试工具中有提供测试 Virtual DOM 的方法：Shallow Rendering（createRenderer），以及测试真实 DOM 的方法：DOM Rendering（renderIntoDocument）。
 
 1. Shallow Rendering（createRenderer）
 
-	Shallow Rendering 係指將一個 Virtual DOM 渲染成子 Component，但是只渲染第一層，不渲染所有子元件，因此處理速度快且不需要 DOM 環境。Shallow rendering 在單元測試非常有用，由於只測試一個特定的 component，而重要的不是它的 children。這也意味著改變一個 child component 不會影響 parent component 的測試。
+	Shallow Rendering 系指将一个 Virtual DOM 渲染成子 Component，但是只渲染第一层，不渲染所有子组件，因此处理速度快且不需要 DOM 环境。Shallow rendering 在单元测试非常有用，由于只测试一个特定的 component，而重要的不是它的 children。这也意味着改变一个 child component 不会影响 parent component 的测试。
 
 	以下是 `react-addons-test-utils-example/src/test/shallowRender.test.js`：
 
@@ -281,7 +281,7 @@
 
 2. DOM Rendering（renderIntoDocument）
 	
-	注意，因為 Mocha 運行在 Node 環境中，所以你不會存取到 DOM。所以我們要使用 JSDOM 來模擬真實 DOM 環境。同時我在這邊引入 `react-dom`，這樣我們就可以使用 findDOMNode 來選取元素。事實上，findDOMNode 方法的最大優勢是提供比 TestUtils 更好的 CSS 選擇器，方便開發者選擇元素。
+	注意，因为 Mocha 运行在 Node 环境中，所以你不会存取到 DOM。所以我们要使用 JSDOM 来模拟真实 DOM 环境。同时我在这边引入 `react-dom`，这样我们就可以使用 findDOMNode 来选取元素。事实上，findDOMNode 方法的最大优势是提供比 TestUtils 更好的 CSS 选择器，方便开发者选择元素。
 
 	以下是 `react-addons-test-utils-example/src/test/setup.test.js`：	
 
@@ -325,7 +325,7 @@
 	export default TodoHeader;
 	```
 
-	需要留意的是若是 stateless components 使用 TestUtils.renderIntoDocument，要將 renderIntoDocument 包在 `<div></div>` 內，使用 `findDOMNode(TodoHeaderApp).children[0]` 取得，不然會回傳 null。更進一步細節可以[參考這裡](https://github.com/facebook/react/issues/4839)。不過由於我們是使用 `class-based` Component 所以不會遇到這個問題。
+	需要留意的是若是 stateless components 使用 TestUtils.renderIntoDocument，要将 renderIntoDocument 包在 `<div></div>` 内，使用 `findDOMNode(TodoHeaderApp).children[0]` 取得，不然会回传 null。更进一步细节可以[参考这里](https://github.com/facebook/react/issues/4839)。不过由于我们是使用 `class-based` Component 所以不会遇到这个问题。
 
 	以下是 `react-addons-test-utils-example/src/test/renderIntoDocument.test.js`：	
 
@@ -348,27 +348,27 @@
 	});
 	```
 
-	這種渲染 DOM 的測試方式類似於 JavaScript 或 jQuery 的 DOM 操作。首先要先找到欲操作的目標節點，而後觸發想要執行的動作，在官方測試工具中擁有許多可以[協助選取節點的方法](https://facebook.github.io/react/docs/test-utils.html#scryrenderedcomponentswithtype)。然而由於其在使用上不夠簡潔，也因此我們接下來將介紹由 Airbnb 所設計的 [Enzyme](https://github.com/airbnb/enzyme)進行 React 測試。
+	这种渲染 DOM 的测试方式类似于 JavaScript 或 jQuery 的 DOM 操作。首先要先找到欲操作的目标节点，而后触发想要执行的动作，在官方测试工具中拥有许多可以[协助选取节点的方法](https://facebook.github.io/react/docs/test-utils.html#scryrenderedcomponentswithtype)。然而由于其在使用上不够简洁，也因此我们接下来将介绍由 Airbnb 所设计的 [Enzyme](https://github.com/airbnb/enzyme)进行 React 测试。
 
-### 使用 Enzyme 函式庫進行測試
-[Enzyme](https://github.com/airbnb/enzyme) 優勢是在於針對官方測試工具封裝成了類似 jQuery API 的選取元素的方式。根據官方網站介紹 Enzyme 將更容易地去操作選取 React Component：
+### 使用 Enzyme 函式库进行测试
+[Enzyme](https://github.com/airbnb/enzyme) 优势是在于针对官方测试工具封装成了类似 jQuery API 的选取元素的方式。根据官方网站介绍 Enzyme 将更容易地去操作选取 React Component：
 
 > Enzyme is a JavaScript Testing utility for React that makes it easier to assert, manipulate, and traverse your React Components’ output.
 Enzyme is unopinionated regarding which test runner or assertion library you use, and should be compatible with all major test runners and assertion libraries out there.
 
-在 Enzyme 中選取元素使用 `find()`：
+在 Enzyme 中选取元素使用 `find()`：
 
 ```javascript
-component.find('.className'); // 使用 class 選取
-component.find('#idName'); // 使用 id 選取
-component.find('h1'); // 使用元素選取
+component.find('.className'); // 使用 class 选取
+component.find('#idName'); // 使用 id 选取
+component.find('h1'); // 使用元素选取
 ```
 
-接下來我們介紹 Enzyme 三個主要的 API 方法：
+接下来我们介绍 Enzyme 三个主要的 API 方法：
 
 1. Shallow Rendering
 
-	shallow 方法事實上就是官方測試工具的 shallow rendering 封装。同樣是只渲染第一層，不渲染所有子元件。
+	shallow 方法事实上就是官方测试工具的 shallow rendering 封装。同样是只渲染第一层，不渲染所有子组件。
 
 	```
 	import React from 'react';
@@ -380,7 +380,7 @@ component.find('h1'); // 使用元素選取
 	describe('Enzyme Shallow Rendering', () => {
 	  it('Main title should be Todos', () => {
 	    const main = shallow(<Main />);
-	    // 判斷 h1 文字是否如預期
+	    // 判断 h1 文字是否如预期
 	    expect(main.find('h1').text()).to.equal('Todos');
 	  });
 	});
@@ -388,7 +388,7 @@ component.find('h1'); // 使用元素選取
 
 2. Static Rendering
 
-	render 方法是將 React 元件渲染成靜態的 HTML 字串，並利用 Cheerio 函式庫（這點和 shallow 不同）分析其結構返回物件。雖然底層是不同的處理引擎但使用上 API 封裝起來和 Shallow 卻是一致的。需要注意的是 Static Rendering 非只渲染一層，需要注意是否需要 mock props 傳遞。
+	render 方法是将 React 组件渲染成静态的 HTML 字串，并利用 Cheerio 函式库（这点和 shallow 不同）分析其结构返回物件。虽然底层是不同的处理引擎但使用上 API 封装起来和 Shallow 却是一致的。需要注意的是 Static Rendering 非只渲染一层，需要注意是否需要 mock props 传递。
 
 	```javascript
 	import React from 'react';
@@ -408,7 +408,7 @@ component.find('h1'); // 使用元素選取
 
 3. Full Rendering
 
-	mount 方法 React 元件載入真實 DOM 節點。同樣因為牽涉到 DOM 也要使用 JSDOM。
+	mount 方法 React 组件载入真实 DOM 节点。同样因为牵涉到 DOM 也要使用 JSDOM。
 
 	```javascript
 	import React from 'react';
@@ -421,22 +421,22 @@ component.find('h1'); // 使用元素選取
 	describe('Enzyme Mount', () => {
 	  it('Click Button', () => {
 	    let todoHeaderDOM = mount(<TodoHeader />);
-	    // 取得 button 並模擬 click
+	    // 取得 button 并模拟 click
 	    let button = todoHeaderDOM.find('button').at(0);
 	    button.simulate('click');
-	    // 檢查 prop(key) 是否正確
+	    // 检查 prop(key) 是否正确
 	    expect(button.prop('disabled')).to.equal(true);
 	  });
 	});
 	```	
 
-最後我們可以在 `react-addons-test-utils-example` 資料夾下執行：
+最后我们可以在 `react-addons-test-utils-example` 资料夹下执行：
 
 ```
 $ npm test
 ```
 
-若一切順利就可以看到測試通過的訊息！
+若一切顺利就可以看到测试通过的讯息！
 
 ```
 
@@ -463,12 +463,12 @@ $ npm test
 
 ```
 
-事實上 Enzyme 還提供更多的 API 可以使用，若是讀者想了解更多 Enzyme API 可以 [參考官方文件](http://airbnb.io/enzyme/docs/api/index.html)。
+事实上 Enzyme 还提供更多的 API 可以使用，若是读者想了解更多 Enzyme API 可以 [参考官方文件](http://airbnb.io/enzyme/docs/api/index.html)。
 
-## 總結
-以上我們從 `Mocha` + `Chai` 的使用方式介紹到 React 官方提供的[測試工具](https://facebook.github.io/react/docs/test-utils.html) 和 Airbnb 所設計的 [Enzyme](https://github.com/airbnb/enzyme)，相信讀者對於測試程式碼已經有初步的了解，若尚未掌握的讀者不妨跟著上面的範例再重新走過一遍，接著我們要進到最後的 `GraphQL/Relay`的介紹。
+## 总结
+以上我们从 `Mocha` + `Chai` 的使用方式介绍到 React 官方提供的[测试工具](https://facebook.github.io/react/docs/test-utils.html) 和 Airbnb 所设计的 [Enzyme](https://github.com/airbnb/enzyme)，相信读者对于测试程式码已经有初步的了解，若尚未掌握的读者不妨跟着上面的范例再重新走过一遍，接着我们要进到最后的 `GraphQL/Relay`的介绍。
 
-## 延伸閱讀
+## 延伸阅读
 1. [React 测试入门教程](http://www.ruanyifeng.com/blog/2016/02/react-testing-tutorial.html)
 2. [测试框架 Mocha 实例教程](http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html)
 3. [Test Utilities](https://facebook.github.io/react/docs/test-utils.html)
@@ -483,7 +483,7 @@ $ npm test
 
 （image via [Anthony Ng](https://cdn-images-1.medium.com/max/800/1*CrB6isZN6YXeM1rWmnjxHw.png)）
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：附錄二、用 React Native + Firebase 開發跨平台行動應用程式](https://github.com/kdchang/reactjs101/blob/master/Appendix02/README.md) | [下一章：附錄四、GraphQL/Relay 初體驗](https://github.com/kdchang/reactjs101/blob/master/Appendix04/README.md) |
+## :door: 任意门
+| [回首页](../../../tree/zh-CN/) | [上一章：附录二、用 React Native + Firebase 开发跨平台行动应用程式](../Appendix02/README.md) | [下一章：附录四、GraphQL/Relay 初体验](../Appendix04/README.md) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [勘误、提问或许愿](https://github.com/kdchang/reactjs101/issues) |
