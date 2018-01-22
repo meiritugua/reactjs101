@@ -1,4 +1,7 @@
 # 从零开始学 ReactJS（ReactJS 101）
+
+> 本开源书 forked from [从零开始学 ReactJS（ReactJS 101）](https://github.com/carlleton/carlleton)，作者为 [hateonion](https://github.com/carlleton)，欢迎大家 star 原作者的 [repo](https://github.com/carlleton/reactjs101)，以便获得最新更新，谢谢！
+
 一本给初学者的 React 中文入门教学书，由浅入深学习 ReactJS 生态系 (Flux, Redux, React Router, ImmutableJS, React Native, Relay/GraphQL etc.)，打造跨平台应用程式。
 
 ![从零开始学 ReactJS（ReactJS 101）](./cover.png)
